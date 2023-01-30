@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_register_graph"
+    app:startDestination="@id/introductionFragment">
+
+    <fragment
+        android:id="@+id/introductionFragment"
+        android:name="com.example.wassalni.fragmentLoginRegister.IntroductionFragment"
+        android:label="IntroductionFragment" >
+        <action
+            android:id="@+id/action_introductionFragment_to_introductionOption"
+            app:destination="@id/introductionOption" />
+    </fragment>
+    <fragment
+        android:id="@+id/introductionOption"
+        android:name="com.example.wassalni.fragmentLoginRegister.IntroductionOptionFragment"
+        android:label="IntroductionOption" >
+        <action
+            android:id="@+id/action_introductionOption_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.wassalni.fragmentLoginRegister.SignUpFragment"
+        android:label="LoginFragment" />
+</navigation>
