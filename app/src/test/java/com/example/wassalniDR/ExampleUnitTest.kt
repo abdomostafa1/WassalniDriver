@@ -1,4 +1,4 @@
-package com.example.wassalni
+package com.example.wassalniDR
 
 import org.junit.Test
 

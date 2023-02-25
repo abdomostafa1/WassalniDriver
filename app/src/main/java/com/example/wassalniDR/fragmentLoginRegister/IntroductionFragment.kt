@@ -1,4 +1,4 @@
-package com.example.wassalni.fragmentLoginRegister
+package com.example.wassalniDR.fragmentLoginRegister
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.wassalni.R
-import com.example.wassalni.databinding.FragmentIntroductionBinding
+import com.example.wassalniDR.R
+import com.example.wassalniDR.databinding.FragmentIntroductionBinding
 
 class IntroductionFragment:Fragment(R.layout.fragment_introduction) {
     private lateinit var binding:FragmentIntroductionBinding

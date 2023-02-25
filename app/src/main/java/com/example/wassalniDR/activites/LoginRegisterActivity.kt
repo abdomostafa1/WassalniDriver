@@ -1,7 +1,8 @@
-package com.example.wassalni
+package com.example.wassalniDR.activites
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.wassalniDR.R
 
 class LoginRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -34,30 +34,19 @@
             android:layout_marginTop="15dp"
             app:layout_constraintTop_toBottomOf="@id/tv_app_name"
             app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            android:text="Let's SignUp"
+            android:text="Let's SignIn"
             android:textAlignment="center"
             android:gravity="center"
             />
 
-        <TextView
-            android:id="@+id/tv_have_an_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/h2"
-            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            app:layout_constraintTop_toBottomOf="@id/tv_lets_login"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:text="Do You Have Ann Account ? Login"
-            android:layout_marginTop="15dp"
-            />
+
         <EditText
             android:id="@+id/tv_email_login"
             android:layout_width="0dp"
             android:layout_height="@dimen/EditTextHeight"
             app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
             app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
-            app:layout_constraintTop_toBottomOf="@id/tv_have_an_account"
+            app:layout_constraintTop_toBottomOf="@id/tv_lets_login"
             style="@style/editText"
             android:hint="Email"
             android:layout_marginTop="50dp"
@@ -85,7 +74,7 @@
             app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
             app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
             android:layout_marginTop="15dp"
-            android:text="SignUp"/>
+            android:text="SignIn"/>
 
 
         <androidx.constraintlayout.widget.Guideline
