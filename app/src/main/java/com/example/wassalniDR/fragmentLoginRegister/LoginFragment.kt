@@ -16,13 +16,16 @@ import com.example.wassalniDR.data.Drivers
 import com.example.wassalniDR.util.DriversRemoteDataSource
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import com.example.wassalniDR.databinding.FragmentLoginBinding
+import com.example.wassalniDR.viewModels.LoginViewModel
 
 
 private val TAG="SignInFragments"
 class LoginFragment: androidx.fragment.app.Fragment() {
     private lateinit var remoteDatabase : DriversRemoteDataSource
     private lateinit var binding: FragmentLoginBinding
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +33,7 @@ class LoginFragment: androidx.fragment.app.Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentLoginBinding.inflate(inflater)
+        remoteDatabase=DriversRemoteDataSource(requireActivity())
         return binding.root
     }
 
@@ -42,7 +46,10 @@ class LoginFragment: androidx.fragment.app.Fragment() {
 
         binding.btnLogin.setOnClickListener {
 //            val driver=getDriverData()
-//            remoteDatabase.createDriver(driver)
+//             remoteDatabase.createDriver(driver.email)
+            loginViewModel.email= getDriverData().email
+            loginViewModel.password=getDriverData().password
+//            loginViewModel.makeLoginRequest()
             Intent()
         }
 

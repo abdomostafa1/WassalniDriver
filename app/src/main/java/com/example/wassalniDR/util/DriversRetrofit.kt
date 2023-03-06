@@ -6,8 +6,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 public interface DriversRetrofit {
-    @POST("driver/create")
-    fun createDriver(@Body driver: Drivers, @Header("app-id") appId: String): Call<Drivers>
+    @POST("/signin")
+
+    fun createDriver(@Body body:Map<String,Any>):Call<Map<String,Any>>
+//    fun createDriver(@Body driver: Drivers): Call<Drivers>
 
 
 }

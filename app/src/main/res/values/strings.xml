@@ -2,4 +2,5 @@
     <string name="app_name">WassalniDR</string>
     <string name="RightAddress">The Right Address \n For making a career \n Anyday</string>
     <string name="quality">Let\'s join our team to be one of our partners in success !</string>
+    <string name="error_occurred" translatable="false">An error occurred</string>
 </resources>
