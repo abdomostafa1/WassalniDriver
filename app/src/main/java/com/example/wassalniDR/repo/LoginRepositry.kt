@@ -12,10 +12,7 @@ class LoginRepositry(private val driversRemoteDataSource: DriversRemoteDataSourc
         driversRemoteDataSource.makeLoginRequest(params=params)
     }
 
-    fun resetUiState() {
 
-        driversRemoteDataSource.resetUiState()
-    }
 
 
 }

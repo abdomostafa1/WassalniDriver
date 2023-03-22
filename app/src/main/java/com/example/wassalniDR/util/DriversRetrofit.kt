@@ -6,8 +6,8 @@ import retrofit2.Call
 import retrofit2.http.*
 
 public interface DriversRetrofit {
-    @POST("/signin")
-
+    @POST("signin")
+    @JvmSuppressWildcards
     fun createDriver(@Body body:Map<String,Any>):Call<Map<String,Any>>
 //    fun createDriver(@Body driver: Drivers): Call<Drivers>
 

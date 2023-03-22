@@ -21,13 +21,9 @@ class LoginViewModel(private val loginRepositry: LoginRepositry):ViewModel() {
 
     val loginUiState = loginRepositry.loginUiState
 
-    suspend fun makeLoginRequest() {
+    suspend fun makeLoginRequest(email:String,password:String) {
         loginRepositry.makeLoginRequest(email!!, password!!)
     }
 
-    fun resetUiState() {
-        _emailError.value=0
-        _passwordError.value=0
-        loginRepositry.resetUiState()
-    }
+
 }

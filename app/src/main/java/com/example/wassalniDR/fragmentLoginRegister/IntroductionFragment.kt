@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.wassalniDR.R
 import com.example.wassalniDR.databinding.FragmentIntroductionBinding
 
-class IntroductionFragment:Fragment(R.layout.fragment_introduction) {
+class IntroductionFragment:Fragment(R.layout.fragment_introduction)  {
     private lateinit var binding:FragmentIntroductionBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,8 +23,8 @@ class IntroductionFragment:Fragment(R.layout.fragment_introduction) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.btnStart.setOnClickListener {
-            findNavController().navigate(R.id.action_introductionFragment_to_introductionOption)
-        }
+//        binding.btnStart.setOnClickListener {
+//            findNavController().navigate(R.id.action_introductionFragment_to_introductionOption)
+//        }
     }
 }

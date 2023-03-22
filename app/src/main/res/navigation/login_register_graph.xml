@@ -3,24 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_register_graph"
-    app:startDestination="@id/introductionFragment">
+    app:startDestination="@id/Login">
 
-    <fragment
-        android:id="@+id/introductionFragment"
-        android:name="com.example.wassalniDR.fragmentLoginRegister.IntroductionFragment"
-        android:label="IntroductionFragment">
-        <action
-            android:id="@+id/action_introductionFragment_to_introductionOption"
-            app:destination="@id/introductionOption" />
-    </fragment>
-    <fragment
-        android:id="@+id/introductionOption"
-        android:name="com.example.wassalniDR.fragmentLoginRegister.IntroductionOptionFragment"
-        android:label="IntroductionOption">
-        <action
-            android:id="@+id/action_introductionOption_to_loginFragment"
-            app:destination="@id/Login" />
-    </fragment>
     <fragment
         android:id="@+id/Login"
         android:name="com.example.wassalniDR.fragmentLoginRegister.LoginFragment"

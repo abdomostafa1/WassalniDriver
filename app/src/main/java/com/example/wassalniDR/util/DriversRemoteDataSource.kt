@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.preference.PreferenceManager
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
@@ -17,6 +18,7 @@ import com.example.wassalniDR.database.SuccessfulResponse
 
 import com.example.wassalniDR.util.Constant.BASEURL
 import com.example.wassalniDR.util.Constant.TAG
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
@@ -24,15 +26,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class DriversRemoteDataSource(val context: Context) {
-    val driverCreation = MutableLiveData<ApiResponse>()
 
-    private lateinit var loginService:DriversRetrofit
-    private lateinit var sharedPreferences: SharedPreferences
+class DriversRemoteDataSource(val context: Context,val loginService:DriversRetrofit) {
+//    val driverCreation = MutableLiveData<ApiResponse>()
 
-    private val _loginUiState= MutableStateFlow<LoginUiState>(LoginUiState.InitialState)
+
+
+    private var sharedPreferences: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
+
+
+    private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.InitialState)
     val loginUiState: StateFlow<LoginUiState>
         get() = _loginUiState
 
@@ -58,21 +63,20 @@ class DriversRemoteDataSource(val context: Context) {
     }
 
     private fun cacheUserCredential(responseParams: Map<String, Any>) {
+
         val token = responseParams["token"] as String
+        Log.e("token",token)
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", true)
         editor.putString("token", token)
         editor.apply()
 
     }
+
     private suspend fun handleErrorBody(body: String) {
         val root = JSONObject(body)
-        val err = root.getJSONObject("err")
-        val errors = err.getJSONObject("errors")
-        errors.keys().forEach {
-            val errorMsg = "$it is not correct"
-            _loginUiState.emit(LoginUiState.Error(errorMsg))
-        }
+        val error = root.getString("msg")
+        _loginUiState.emit(LoginUiState.Error(error))
 
         Log.e(TAG, "Fail: $body")
     }
@@ -87,30 +91,18 @@ class DriversRemoteDataSource(val context: Context) {
         Log.e(TAG, "catch: ${ex.message}")
         _loginUiState.emit(LoginUiState.Error(errorMsg!!))
     }
-
-    fun resetUiState() {
-        _loginUiState.value=LoginUiState.InitialState
-
-
-    }
-
-
-
-
-
-
-
+}
 
 
 
     sealed class LoginUiState(){
         object InitialState:LoginUiState()
         object Loading:LoginUiState()
-        object CodeSent:LoginUiState()
-        object VerificationSuccess:LoginUiState()
+
         object LoginSuccess:LoginUiState()
         data class Error(val errorMsg:String):LoginUiState()
     }
+
 
 
 
@@ -214,6 +206,6 @@ class DriversRemoteDataSource(val context: Context) {
 //        }
 //        return false
 //    }
-}
+
 
 
