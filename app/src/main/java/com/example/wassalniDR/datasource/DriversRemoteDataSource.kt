@@ -2,33 +2,18 @@ package com.example.wassalniDR.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.preference.PreferenceManager
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.MutableLiveData
 import com.example.wassalniDR.R
-import com.example.wassalniDR.data.Drivers
-import com.example.wassalniDR.database.ApiResponse
-import com.example.wassalniDR.database.FailureResponse
-import com.example.wassalniDR.database.SuccessfulResponse
+import com.example.wassalniDR.database.DriversRetrofit
 
-import com.example.wassalniDR.util.Constant.BASEURL
 import com.example.wassalniDR.util.Constant.TAG
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 
 
-class DriversRemoteDataSource(val context: Context,val loginService:DriversRetrofit) {
+class DriversRemoteDataSource(val context: Context,val loginService: DriversRetrofit) {
 //    val driverCreation = MutableLiveData<ApiResponse>()
 
 
@@ -45,6 +30,7 @@ class DriversRemoteDataSource(val context: Context,val loginService:DriversRetro
 
         try {
             _loginUiState.emit(LoginUiState.Loading)
+
             val task = loginService.createDriver(params).execute()
             if (task.isSuccessful) {
                 val responseParams = task.body()
@@ -70,6 +56,7 @@ class DriversRemoteDataSource(val context: Context,val loginService:DriversRetro
         editor.putBoolean("isLoggedIn", true)
         editor.putString("token", token)
         editor.apply()
+
 
     }
 

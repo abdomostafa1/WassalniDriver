@@ -1,18 +1,14 @@
 package com.example.wassalniDR.fragments
 
-import android.content.Context
+import android.R
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
-import com.example.wassalniDR.R
 import com.example.wassalniDR.databinding.FragmentHomeBinding
 import com.example.wassalniDR.util.Constant.REQUEST_CODE
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -27,24 +23,35 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class HomeFragment:Fragment(R.layout.fragment_home),OnMapReadyCallback,OnMarkerClickListener {
+class HomeFragment:Fragment(),OnMapReadyCallback,OnMarkerClickListener {
 
     lateinit var binding: FragmentHomeBinding
     lateinit var gMap: GoogleMap
     lateinit var location: Location
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding= FragmentHomeBinding.inflate(inflater)
-        val mapFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireActivity())
-        return binding.root
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        binding= FragmentHomeBinding.inflate(inflater)
+//        val mapFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+//        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireActivity())
+//        return binding.root
+//    }
+    override
+open fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+): View? {
+    val rootView: View = inflater.inflate(com.example.wassalniDR.R.layout.fragment_home, container, false)
+    val mapFragment = childFragmentManager.findFragmentById(com.example.wassalniDR.R.id.map) as SupportMapFragment?
+    mapFragment!!.getMapAsync(this)
+    fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireActivity())
+    return rootView
+}
     override fun onMapReady(p0: GoogleMap) {
         this.gMap = p0
         gMap.uiSettings.isZoomControlsEnabled=true

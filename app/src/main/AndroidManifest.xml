@@ -21,20 +21,26 @@
         <activity
             android:name=".activites.SplashScreenActivity"
             android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".activites.DriverActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".activites.LoginRegisterActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activites.DriverActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activites.LoginRegisterActivity"
-            android:exported="false">
 
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAQPlEs6JthwqW7L37d9_ny0_B-rvpd_KY" />
     </application>
 
 </manifest>

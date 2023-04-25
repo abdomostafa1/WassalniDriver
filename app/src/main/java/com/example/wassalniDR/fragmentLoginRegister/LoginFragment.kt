@@ -1,33 +1,23 @@
 package com.example.wassalniDR.fragmentLoginRegister
 
-import android.app.Activity
-import android.app.Fragment
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.example.wassalniDR.R
 import com.example.wassalniDR.activites.DriverActivity
-import com.example.wassalniDR.data.Drivers
 import com.example.wassalniDR.util.DriversRemoteDataSource
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.wassalniDR.databinding.FragmentLoginBinding
 import com.example.wassalniDR.repo.LoginRepositry
 import com.example.wassalniDR.util.Constant.BASEURL
-import com.example.wassalniDR.util.DriversRetrofit
+import com.example.wassalniDR.database.DriversRetrofit
 import com.example.wassalniDR.util.LoginUiState
 import com.example.wassalniDR.viewModels.LoginViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
@@ -40,7 +30,7 @@ class LoginFragment: androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var  loginViewModel: LoginViewModel
     private lateinit var repo:LoginRepositry
-    private lateinit var retrofit:DriversRetrofit
+    private lateinit var retrofit: DriversRetrofit
 
     override fun onCreateView(
         inflater: LayoutInflater,
