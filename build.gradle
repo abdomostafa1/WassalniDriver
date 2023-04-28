@@ -17,6 +17,15 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.google.dagger.hilt.android") version "2.44" apply false
+}
+
+ext {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

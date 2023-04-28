@@ -4,8 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.example.wassalniDR.data.TripDetails
 import com.example.wassalniDR.database.TripsRetrofit
+import javax.inject.Inject
 
-class TripDetailsDataSource(val context: Context,val tripService: TripsRetrofit)
+class TripDetailsDataSource @Inject constructor(private val tripService: TripsRetrofit)
 {
     private val TAG = "TripDetailsDataSource"
 

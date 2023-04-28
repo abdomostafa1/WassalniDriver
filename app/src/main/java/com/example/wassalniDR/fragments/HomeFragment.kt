@@ -41,8 +41,7 @@ class HomeFragment:Fragment(),OnMapReadyCallback,OnMarkerClickListener {
 //        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireActivity())
 //        return binding.root
 //    }
-    override
-open fun onCreateView(
+    override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
 ): View? {
