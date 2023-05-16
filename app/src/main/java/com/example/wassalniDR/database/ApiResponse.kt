@@ -3,7 +3,6 @@ package com.example.wassalniDR.database
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.wassalniDR.data.Drivers
 import com.example.wassalniDR.util.ErrorModel
 
 open class ApiResponse {
@@ -11,24 +10,14 @@ open class ApiResponse {
     var statusCode: Int? = null
 
     companion object {
-        val NO_INTERNET = "No Internet Connection"
+        const val NO_INTERNET = "No Internet Connection"
         val CONNECTION_TIMEOUT = "No Internet Connection"
-        val NOT_FOUND = "Resource not found"
+        const val NOT_FOUND = "Resource not found"
         val UNAUTHORIZED = "you aren't authorized to do that"
-        val SERVICE_UNAVAILABLE = "you aren't authorized to do that"
-        val INTERNEL_SERVER_ERROR = "Sorry Internal Server Error\ntry again later"
+        const val SERVICE_UNAVAILABLE = "you aren't authorized to do that"
+        const val INTERNEL_SERVER_ERROR = "Sorry Internal Server Error\ntry again later"
     }
 }
-
-     class SuccessfulResponse:ApiResponse{
-         var body: Drivers
-
-         constructor(code: Int, body: Drivers) {
-             this.statusCode = code
-             this.body = body
-             isSuccessful = true
-         }
-     }
 
     class FailureResponse:ApiResponse {
         lateinit var errorMessage: String

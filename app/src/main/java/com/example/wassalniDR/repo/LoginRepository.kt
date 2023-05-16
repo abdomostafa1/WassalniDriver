@@ -1,10 +1,10 @@
 package com.example.wassalniDR.repo
 
 import com.example.wassalniDR.util.DriversRemoteDataSource
+import javax.inject.Inject
 
-class LoginRepositry(private val driversRemoteDataSource: DriversRemoteDataSource) {
+class LoginRepository @Inject constructor(private val driversRemoteDataSource: DriversRemoteDataSource) {
 
-    val loginUiState=driversRemoteDataSource.loginUiState
     suspend fun makeLoginRequest(email: String, password: String) {
         val params=HashMap<String,Any>()
         params["email"]=email

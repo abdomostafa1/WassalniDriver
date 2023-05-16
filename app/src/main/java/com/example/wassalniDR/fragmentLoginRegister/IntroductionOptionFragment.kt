@@ -12,8 +12,9 @@ import com.example.wassalniDR.R
 import com.example.wassalniDR.databinding.FragmentOptionBinding
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class IntroductionOptionFragment:Fragment(R.layout.fragment_option) {
     private lateinit var binding:FragmentOptionBinding
     override fun onCreateView(
@@ -29,8 +30,8 @@ class IntroductionOptionFragment:Fragment(R.layout.fragment_option) {
         super.onViewCreated(view, savedInstanceState)
 
 
-//        binding.btnLoginAccountOptions.setOnClickListener {
-//            findNavController().navigate(R.id.action_introductionOption_to_loginFragment)
-//        }
+        binding.btnLoginAccountOptions.setOnClickListener {
+           // findNavController().navigate(R.id.action_introductionOptionFragment_to_Login)
+        }
     }
 }

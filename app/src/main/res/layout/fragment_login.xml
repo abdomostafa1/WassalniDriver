@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,71 +11,74 @@
         android:layout_height="match_parent"
         android:src="@drawable/blury_background"
         android:scaleType="centerCrop"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        >
+
         <TextView
             android:id="@+id/tv_app_name"
+            style="@style/h3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/h3"
             android:layout_marginTop="110dp"
             android:drawableStart="@drawable/ic_kleine_shape"
             android:drawablePadding="6dp"
+            android:text="WassalniDr."
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="WassalniDr."
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_lets_login"
+            style="@style/h4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/h4"
             android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_app_name"
-            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
+            android:gravity="center"
             android:text="Let's SignIn"
             android:textAlignment="center"
-            android:gravity="center"
-            />
+            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
+            app:layout_constraintTop_toBottomOf="@id/tv_app_name" />
 
 
         <EditText
             android:id="@+id/tv_email_login"
+            style="@style/editText"
             android:layout_width="0dp"
             android:layout_height="@dimen/EditTextHeight"
-            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
-            app:layout_constraintTop_toBottomOf="@id/tv_lets_login"
-            style="@style/editText"
-            android:hint="Email"
             android:layout_marginTop="50dp"
+            android:hint="Email"
             android:inputType="textEmailAddress"
-            />
+            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
+            app:layout_constraintTop_toBottomOf="@id/tv_lets_login" />
+
         <EditText
             android:id="@+id/tv_pass_login"
+            style="@style/editText"
             android:layout_width="0dp"
             android:layout_height="@dimen/EditTextHeight"
-            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
-            app:layout_constraintTop_toBottomOf="@id/tv_email_login"
-            style="@style/editText"
-            android:hint="Password"
             android:layout_marginTop="15dp"
+            android:hint="Password"
             android:inputType="textPassword"
-            />
+            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
+            app:layout_constraintTop_toBottomOf="@id/tv_email_login" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login"
+            style="@style/blueButtonStyle"
             android:layout_width="0dp"
             android:layout_height="@dimen/mediumButtonHeight"
-            style="@style/blueButtonStyle"
-            app:layout_constraintTop_toBottomOf="@id/tv_pass_login"
-            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
-            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
             android:layout_marginTop="15dp"
-            android:text="SignIn"/>
+            android:text="SignIn"
+            app:layout_constraintEnd_toEndOf="@id/guidelineLoginRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLoginLeft"
+            app:layout_constraintTop_toBottomOf="@id/tv_pass_login" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -83,12 +87,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.09" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLoginRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.91" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

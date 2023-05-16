@@ -2,28 +2,52 @@ package com.example.wassalniDR.activites
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.preference.PreferenceManager
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.wassalniDR.R
-import com.example.wassalniDR.fragmentLoginRegister.LoginFragment
-import com.example.wassalniDR.fragments.HomeFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        lateinit var sharedPreferences: SharedPreferences
 
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false)
-        if(!isLoggedIn)
-        {
-            val intent= Intent(applicationContext,LoginRegisterActivity::class.java)
-            startActivity(intent)
-        }else{
-            val intent= Intent(applicationContext, DriverActivity::class.java)
-            startActivity(intent)
-        }
+        isLoggedIn()
+    }
+
+    private val loginLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        result->
+        if (result.resultCode== RESULT_CANCELED)
+            finish()
+        else
+            isLoggedIn()
+    }
+
+    private val mainLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result->
+        if (result.resultCode== RESULT_CANCELED)
+            finish()
+    }
+    private fun isLoggedIn() {
+        val isLoggedIn=sharedPreferences.getBoolean("isLoggedIn",false)
+        if (isLoggedIn)
+            openDriverActivity()
+        else
+            openLoginActivity()
+    }
+
+    private fun openDriverActivity() {
+        val intent=Intent(this,DriverActivity::class.java)
+            mainLauncher.launch(intent)
+        
+    }
+    private fun openLoginActivity() {
+        val intent=Intent(this,LoginActivity::class.java)
+            loginLauncher.launch(intent)
     }
 }

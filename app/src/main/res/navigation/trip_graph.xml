@@ -3,25 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/trip_graph"
-    app:startDestination="@id/tripsFragment">
+    app:startDestination="@id/tripDetailsFragment">
 
     <fragment
-        android:id="@+id/tripsFragment"
-        android:name="com.example.wassalniDR.fragments.TripsFragment"
-        android:label="TripsFragment" >
+        android:id="@+id/tripDetailsFragment"
+        android:name="com.example.wassalniDR.fragments.tripGraph.TripDetailsFragment"
+        android:label="fragment_trip_details"
+        tools:layout="@layout/fragment_trip_details">
         <action
-            android:id="@+id/action_tripsFragment2_to_tripDetailsFragment"
-            app:destination="@id/tripDetailsFragment" >
+            android:id="@+id/action_tripDetailsFragment_to_rideLifecycleFragment"
+            app:destination="@id/rideLifecycleFragment" />
         <argument
             android:name="id"
-            android:defaultValue=""
-            app:argType="string"
-            />
-    </action>
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/tripDetailsFragment"
-        android:name="com.example.wassalniDR.fragments.TripDetailsFragment"
-        android:label="fragment_trip_details"
-        tools:layout="@layout/fragment_trip_details" />
+        android:id="@+id/rideLifecycleFragment"
+        android:name="com.example.wassalniDR.fragments.tripGraph.RideLifecycleFragment"
+        android:label="fragment_ride_lifecycle"
+        tools:layout="@layout/fragment_ride_lifecycle">
+        <action
+            android:id="@+id/action_rideLifecycleFragment_to_passengerEntryFragment"
+            app:destination="@id/passengerEntryFragment" />
+        <action
+            android:id="@+id/action_rideLifecycleFragment_to_passengerExitFragment"
+            app:destination="@id/passengerExitFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passengerEntryFragment"
+        android:name="com.example.wassalniDR.fragments.tripGraph.PassengerEntryFragment"
+        android:label="fragment_entering_passengers"
+        tools:layout="@layout/fragment_entering_passengers" />
+    <fragment
+        android:id="@+id/passengerExitFragment"
+        android:name="com.example.wassalniDR.fragments.tripGraph.PassengerExitFragment"
+        android:label="fragment_exiting_passengers"
+        tools:layout="@layout/fragment_exiting_passengers" />
+
+    <action
+        android:id="@+id/action_rideLifecycleFragment_to_tripsFragment"
+        app:destination="@id/tripsFragment"
+        app:popUpTo="@id/driver_graph"
+        app:popUpToInclusive="true"
+        />
 </navigation>

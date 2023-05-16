@@ -1,82 +1,37 @@
 package com.example.wassalniDR.util
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import android.util.Log
-import com.example.wassalniDR.R
 import com.example.wassalniDR.database.DriversRetrofit
 
-import com.example.wassalniDR.util.Constant.TAG
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import org.json.JSONObject
+import javax.inject.Inject
 
 
-class DriversRemoteDataSource(val context: Context,val loginService: DriversRetrofit) {
-//    val driverCreation = MutableLiveData<ApiResponse>()
-
-
-
-    private var sharedPreferences: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context)
-
-
-    private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.InitialState)
-    val loginUiState: StateFlow<LoginUiState>
-        get() = _loginUiState
+class DriversRemoteDataSource @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val loginService: DriversRetrofit) {
 
     suspend fun makeLoginRequest(params: HashMap<String, Any>) {
 
-        try {
-            _loginUiState.emit(LoginUiState.Loading)
-
-            val task = loginService.createDriver(params).execute()
+            val task = loginService.loginDriver(params).execute()
             if (task.isSuccessful) {
                 val responseParams = task.body()
-                cacheUserCredential(responseParams!!)
-                _loginUiState.emit(LoginUiState.LoginSuccess)
-            } else {
-                val body: String? = task.errorBody()?.string()
-                if (body != null) {
-                    handleErrorBody(body)
-                }
-            }
+                val email=params["email"] as String
+                cacheUserCredential(responseParams!!,email)
+            } else
+                throw Exception( task.errorBody()?.string())
 
-        } catch (ex: Exception) {
-            handleExceptionError(ex)
         }
-    }
 
-    private fun cacheUserCredential(responseParams: Map<String, Any>) {
+    private fun cacheUserCredential(responseParams: Map<String, Any>, email: String) {
 
         val token = responseParams["token"] as String
         Log.e("token",token)
         val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", true)
         editor.putString("token", token)
+        editor.putString("email", email)
         editor.apply()
-
-
-    }
-
-    private suspend fun handleErrorBody(body: String) {
-        val root = JSONObject(body)
-        val error = root.getString("msg")
-        _loginUiState.emit(LoginUiState.Error(error))
-
-        Log.e(TAG, "Fail: $body")
-    }
-
-    private suspend fun handleExceptionError(ex: Exception) {
-        var errorMsg: String? = null
-        errorMsg = if (ex.message != null)
-            ex.message
-        else
-            context.getString(R.string.error_occurred)
-
-        Log.e(TAG, "catch: ${ex.message}")
-        _loginUiState.emit(LoginUiState.Error(errorMsg!!))
     }
 }
 
@@ -87,7 +42,7 @@ class DriversRemoteDataSource(val context: Context,val loginService: DriversRetr
         object Loading:LoginUiState()
 
         object LoginSuccess:LoginUiState()
-        data class Error(val errorMsg:String):LoginUiState()
+        object Error:LoginUiState()
     }
 
 

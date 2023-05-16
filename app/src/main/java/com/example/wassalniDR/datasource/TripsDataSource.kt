@@ -2,19 +2,19 @@ package com.example.wassalniDR.datasource
 
 import android.content.Context
 import android.util.Log
-import com.example.wassalniDR.data.Trips
+import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.database.TripsRetrofit
+import com.squareup.moshi.JsonClass
 
-class TripsDataSource(val context:Context,val tripService: TripsRetrofit)
-{
-    private val TAG = "TripsDataSource"
+private const val TAG = "TripsDataSource"
 
-    fun getTrips(token: String): List<Trips> {
+class TripsDataSource(private val tripService: TripsRetrofit) {
+
+    fun getTrips(token: String): List<Trip> {
         val task = tripService.getAllTrips(token).execute()
         if (task.isSuccessful) {
             Log.e(TAG, "isSuccessful ")
-            val allTripsResponse = task.body()
-            val trips = allTripsResponse?.Trips
+            val trips = task.body()?.Trips
             Log.e(TAG, "Trips: ${trips.toString()}")
             return trips!!
         } else {
@@ -24,9 +24,7 @@ class TripsDataSource(val context:Context,val tripService: TripsRetrofit)
 
     }
 
-
-
-
 }
-data class AllTripsResponse(val Trips: List<Trips>)
+
+data class DriverTripsResponse(val Trips: List<Trip>)
 

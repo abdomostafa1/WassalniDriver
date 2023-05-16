@@ -23,18 +23,20 @@ import com.example.wassalniDR.datasource.TripsDataSource
 import com.example.wassalniDR.repo.TripRepositry
 import com.example.wassalniDR.util.Constant
 import com.example.wassalniDR.viewModels.TripsViewModel
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class TripsFragment:Fragment() {
+private const val TAG = "TripsFragment"
+class TripsFragment : Fragment() {
 
     private lateinit var tripsDataSource: TripsDataSource
-    private lateinit var binding:FragmentTripsBinding
+    private lateinit var binding: FragmentTripsBinding
     private lateinit var tripsViewModel: TripsViewModel
-    private lateinit var repo:TripRepositry
-    private lateinit var retrofit: TripsRetrofit
+    private lateinit var repo: TripRepositry
     private lateinit var adapter: TripsAdapter
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -43,57 +45,85 @@ class TripsFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=FragmentTripsBinding.inflate(inflater)
-        retrofit=Retrofit.Builder().baseUrl(Constant.BASEURL).addConverterFactory(MoshiConverterFactory.create())
-            .build().create(TripsRetrofit::class.java)
-        tripsDataSource= TripsDataSource(requireActivity().applicationContext,retrofit)
-        repo= TripRepositry(tripsDataSource)
-        tripsViewModel= TripsViewModel(repo)
+        binding = FragmentTripsBinding.inflate(inflater)
+        val retrofit = Retrofit.Builder().baseUrl(Constant.BASEURL)
+            .addConverterFactory(
+                MoshiConverterFactory.create(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build())).build()
+        val tripRetrofit=retrofit.create(TripsRetrofit::class.java)
+        tripsDataSource = TripsDataSource(tripRetrofit)
+        repo = TripRepositry(tripsDataSource)
+        tripsViewModel = TripsViewModel(repo)
         adapter = TripsAdapter()
         binding.rvTrips.adapter = adapter
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(requireContext())
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val token= sharedPreferences.getString("token", "")
-        Log.e("token",token!!)
-        if (token != null) {
-            tripsViewModel.getTrips(token)
-            handleTripsLiveData()
-        }
+        val token = sharedPreferences.getString("token", "")
+        Log.e("TAG", "token equals:$token")
+        tripsViewModel.getTrips(token!!)
+        handleTripsLiveData()
 
+        binding.errorState.retry.setOnClickListener {
+            tripsViewModel.getTrips(token)
+        }
     }
 
     private fun handleTripsLiveData() {
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                tripsViewModel.state.collect{ state->
-                    when(state)
-                    {
-                        is TripUiState.Loading->{
-
+                tripsViewModel.state.collect {
+                    when (it) {
+                        is TripUiState.Loading -> {
+                            showLoadingState()
                         }
-                        is TripUiState.Success->{
-                            val trips=state.trips
-                            adapter.setData(trips)
+                        is TripUiState.Success -> {
+                            showSuccessState()
+                            adapter.setData(it.trips)
                         }
-                        is TripUiState.Error->{
-                            Toast.makeText(requireContext(), "error", Toast.LENGTH_LONG).show()
+                        is TripUiState.Error -> {
+                            showErrorState()
+                            Toast.makeText(requireContext(), it.errorMsg, Toast.LENGTH_LONG).show()
                         }
-                        is TripUiState.Empty->{
-
-                        }
-                        else ->{
-
+                        is TripUiState.Empty -> {
+                            showEmptyState()
                         }
                     }
-
                 }
             }
         }
+    }
+
+    private fun showLoadingState() {
+        binding.errorState.root.visibility = View.GONE
+        binding.emptyState.root.visibility = View.GONE
+        binding.loadingState.root.visibility = View.VISIBLE
+
+    }
+
+    private fun showSuccessState() {
+        binding.loadingState.root.visibility = View.GONE
+        binding.errorState.root.visibility = View.GONE
+        binding.emptyState.root.visibility = View.GONE
+        binding.rvTrips.visibility = View.VISIBLE
+
+    }
+
+    private fun showErrorState() {
+        binding.loadingState.root.visibility = View.GONE
+        binding.emptyState.root.visibility = View.GONE
+        binding.rvTrips.visibility = View.GONE
+        binding.errorState.root.visibility = View.VISIBLE
+    }
+
+    private fun showEmptyState() {
+        binding.loadingState.root.visibility = View.GONE
+        binding.errorState.root.visibility = View.GONE
+        binding.rvTrips.visibility = View.GONE
+        binding.emptyState.root.visibility = View.VISIBLE
     }
 
 

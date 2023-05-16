@@ -8,7 +8,7 @@ private const val TAG = "DateUseCase"
 
 class DateUseCase {
     companion object {
-        fun fromMillisToString1(millis: Long): String {
+        fun fromMillisToHhMma(millis: Long): String {
 
             val date = Date(millis*1000) // create a Date object from the millisecond value
 
@@ -19,7 +19,7 @@ class DateUseCase {
 
         }
 
-        fun fromMillisToString2(millis: Long): String {
+        fun fromMillisToDdMMYyyy(millis: Long): String {
 
             val date = Date(millis*1000) // create a Date object from the millisecond value
             val sdf = SimpleDateFormat(" dd/MM/yyyy hh:mm a") // create a date format

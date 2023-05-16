@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WassalniDR</string>
+    <string name="email_invalid">البريد الإلكتروني غير صحيح</string>
+    <string name="passsword_invalid">كلمة السر غير صحيحة</string>
+    <string name="incorrect_email_or_password">البريد الإلكتروني او كلمة السر غير صحيحة</string>
+    <string name="error_occurred" >للأسف حدث خطأ</string>
+    <string name="start_trip">بدأ الرحلة</string>
+    <string name="continue_trip">اكمال الرحلة</string>
+    <string name="navigate_to">التوجه الي</string>
+    <string name="confirm_arrival">تأكيد الوصول الي</string>
+    <string name="entering_passengers">دخول الركاب</string>
+    <string name="exiting_passengers">خروج الركاب</string>
+    <string name="arrival_time_to_station">ميعاد الوصول للمحطة</string>
+    <string name="arrival_confirmed">تم تأكيد الوصول</string>
+    <string name="not_reached_station">انت لم تصل للمحطة بعد</string>
+    <string name="ticket">رقم التذكرة </string>
+    <string name="seats_num">عدد الكراسي </string>
+
+    <string name="paid">تم الدفع</string>
+    <string name="not_paid">لم يدفع</string>
+    <string name="not_attend">لم يحضر</string>
+    <string name="are_you_sure">هل أنت متأكد؟</string>
+    <string name="attend">حضر</string>
+    <string name="passenger_leave">خروج الراكب</string>
+    <string name="fare">الأجرة</string>
+    <string name="cancel">الغاء</string>
+    <string name="ok">تم</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="passenger_has_paid">الراكب دفع الأجرة بالفعل</string>
+    <string name="passenger_not_paid">الراكب لم يدفع الأجرة</string>
+    <string name="received_the_fee">استلمت الأجرة</string>
+    <string name="turn_device_location">قم بتشغيل موقع الجهاز</string>
+    <string name="gps_message">GPS غير مفعل. هل تريد الذهاب إلى قائمة الإعدادات؟</string>
+    <string name="location_permission_failure">التطبيق لن يعمل بشكل صحيح, يجب ان تسمح بالوصول الي موقعك</string>
+    <string name="settings">الإعدادات</string>
+    <string name="you_have_reached_your_final_destination">لقد وصلت الي المحطة الأخيرة</string>
+    <string name="congratulations_on_completing_trip">تهانينا على إتمام رحلتك بنجاح</string>
+    <string name="finish_trip">إنهاء الرحلة</string>
+    <string name="confirm_arrival_before_ten_minutes">تأكيد الوصول قبل ميعاد وصول المحطة ب 10 دقائق فقط</string>
+    <string name="no_trips">لا يوجد رحلات</string>
+    <string name="retry">إعادة المحاولة</string>
+
+</resources>

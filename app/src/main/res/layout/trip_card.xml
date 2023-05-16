@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:elevation="10dp"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/g_blue100">
+    app:cardBackgroundColor="#FEE9C0">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,96 +15,84 @@
         android:layout_margin="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/start_time"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="9:00 "
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/end_time"
-            app:layout_constraintTop_toBottomOf="@id/start_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="1:00 "
-            android:textSize="20sp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
+            android:text="9:00 "
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/start_destnation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/start_destnation" />
 
         <TextView
+            android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/start_destnation"
-            app:layout_constraintEnd_toStartOf="@id/start_time"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="صفط راشين "
-            android:textSize="15sp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="10dp"
+            android:text="1:00 "
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start_time"
+
+            />
+
+        <TextView
+            android:id="@+id/start_destnation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="صفط راشين "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@+id/line"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/end_destnation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/_8sdp"
             android:text="مجمع تعليم صناعي "
             android:textColor="@color/black"
             android:textSize="15sp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/end_time"
-            app:layout_constraintTop_toBottomOf="@id/start_destnation" />
+            app:layout_constraintBottom_toBottomOf="@+id/end_time"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toBottomOf="@+id/start_time" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:text="20 جنيه "
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_destnation" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/end_destnation" />
 
         <View
             android:id="@+id/line"
-            android:layout_width="2dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/_4sdp"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="@id/start_time"
             app:layout_constraintBottom_toBottomOf="@id/end_time"
-            app:layout_constraintStart_toStartOf="@id/start_time"
+            app:layout_constraintStart_toEndOf="@id/start_time"
             tools:ignore="MissingConstraints"
-            android:layout_marginStart="-6dp"
-            android:background="@color/black"
+            android:layout_marginStart="16dp"
+            android:background="#FECD7F"
             />
-        <ImageView
-            android:id="@+id/iv_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/line"
-            app:layout_constraintStart_toStartOf="@id/line"
-            app:layout_constraintEnd_toStartOf="@id/line"
-            android:src="@drawable/start"/>
-        <ImageView
-            android:id="@+id/iv_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/line"
-            app:layout_constraintStart_toStartOf="@id/line"
-            app:layout_constraintEnd_toStartOf="@id/line"
-            android:src="@drawable/finish"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -3,7 +3,7 @@ package com.example.wassalniDR.data
 import com.squareup.moshi.Json
 
 
-data class Trips(
+data class Trip(
     @Json(name = "_id")
     val id: String,
     val start: String,

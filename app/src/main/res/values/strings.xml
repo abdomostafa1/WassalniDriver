@@ -1,8 +1,49 @@
 <resources>
     <string name="app_name">WassalniDR</string>
-    <string name="RightAddress">The Right Address \n For making a career \n Anyday</string>
-    <string name="quality">Let\'s join our team to be one of our partners in success !</string>
-    <string name="error_occurred" translatable="false">An error occurred</string>
+    <string name="RightAddress" translatable="false">The Right Address \n For making a career \n Anyday</string>
+    <string name="quality" translatable="false">Let\'s join our team to be one of our partners in success !</string>
+    <string name="error_occurred" >An error occurred</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_invalid">Email is invalid</string>
+    <string name="no_trips">there is no trips</string>
+    <string name="passsword_invalid">Password is invalid</string>
+    <string name="incorrect_email_or_password">incorrect email or password</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="start_trip">Start trip</string>
+    <string name="continue_trip">Continue trip</string>
+    <string name="navigate_to">Navigate to</string>
+    <string name="confirm_arrival">Confirm arrival to</string>
+    <string name="entering_passengers">Entering passengers</string>
+    <string name="exiting_passengers">Exiting passengers</string>
+    <string name="arrival_time_to_station">Arrival time to station</string>
+    <string name="arrival_confirmed">Arrival has been confirmed</string>
+    <string name="not_reached_station">You have not reached the station yet</string>
+    <string name="ticket">ticket num </string>
+    <string name="seats_num">seats num </string>
+    <string name="paid">has paid</string>
+    <string name="not_paid">Not paid</string>
+    <string name="attend">attend</string>
+    <string name="not_attend">Not attend</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="passenger_leave">Passenger leave</string>
+    <string name="fare">fare</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="passenger_has_paid">Passenger has paid already</string>
+    <string name="passenger_not_paid">Passenger did not pay the fare</string>
+    <string name="received_the_fee">received fee</string>
+    <string name="turn_device_location">turn on device location</string>
+    <string name="gps_message">GPS is not enabled. Do you want to go to Settings menu ?</string>
+
+    <string name="location_permission_failure">The app won\'t work properly ,you must give us location permission</string>
+    <string name="settings">Settings</string>
+    <string name="you_have_reached_your_final_destination">You have reached your final station!</string>
+    <string name="congratulations_on_completing_trip">Congratulations on successfully completing your trip</string>
+    <string name="finish_trip">Finish trip</string>
+    <string name="confirm_arrival_before_ten_minutes">confirm arrival is allowed before 10 minutes of station arrival</string>
+    <string name="retry">retry</string>
+
+
 </resources>

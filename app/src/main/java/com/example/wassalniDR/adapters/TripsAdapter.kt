@@ -1,24 +1,22 @@
 package com.example.wassalniDR.adapters
 
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wassalniDR.data.Trips
+import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.databinding.TripCardBinding
 import com.example.wassalniDR.fragments.TripsFragmentDirections
+//import com.example.wassalniDR.fragments.TripsFragmentDirections
 import com.example.wassalniDR.util.DateUseCase
 import okhttp3.internal.immutableListOf
 
-
+private const val TAG = "TripsAdapter"
 class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
 {
 
-    private var trips= immutableListOf<Trips>()
-
-
-
+    private var trips= emptyList<Trip>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             TripCardBinding.inflate(
@@ -35,11 +33,11 @@ class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
         holder.binding.startDestnation.text=trip.start
         holder.binding.endDestnation.text=trip.destination
         holder.binding.price.text=trip.price.toString()
-        holder.binding.startTime.text=DateUseCase.fromMillisToString1(trip.startTime)
-        holder.binding.endTime.text=DateUseCase.fromMillisToString1(trip.endTime)
+        holder.binding.startTime.text=DateUseCase.fromMillisToHhMma(trip.startTime)
+        holder.binding.endTime.text=DateUseCase.fromMillisToHhMma(trip.endTime)
         val id=trip.id
         holder.itemView.setOnClickListener {
-            val action=TripsFragmentDirections.actionTripsFragment2ToTripDetailsFragment(id)
+            val action=TripsFragmentDirections.actionTripsFragmentToTripGraph(id)
             it.findNavController().navigate(action)
 
         }
@@ -48,9 +46,10 @@ class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
     }
 
     override fun getItemCount(): Int =trips.size
-    fun setData(newTrips:List<Trips>)
+    fun setData(newTrips:List<Trip>)
     {
         trips=newTrips
+        Log.e(TAG, "trips Data: $trips" )
         notifyDataSetChanged()
     }
     inner class ViewHolder(binding: TripCardBinding) : RecyclerView.ViewHolder(binding.root) {

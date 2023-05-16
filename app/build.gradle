@@ -4,6 +4,8 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 
 
 }
@@ -41,8 +43,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.test:core-ktx:1.4.0'
@@ -63,8 +65,13 @@ dependencies {
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+    kapt ("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+
     implementation 'com.google.code.gson:gson:2.10'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
@@ -79,7 +86,11 @@ dependencies {
     //google map
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.maps.android:android-maps-utils:2.4.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
+    //sdp & ssp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
 }
