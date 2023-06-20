@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WassalniDR</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <string name="email_invalid">البريد الإلكتروني غير صحيح</string>
     <string name="passsword_invalid">كلمة السر غير صحيحة</string>
     <string name="incorrect_email_or_password">البريد الإلكتروني او كلمة السر غير صحيحة</string>
@@ -41,8 +43,9 @@
     <string name="confirm_arrival_before_ten_minutes">تأكيد الوصول قبل ميعاد وصول المحطة ب 10 دقائق فقط</string>
     <string name="no_trips">لا يوجد رحلات</string>
     <string name="retry">إعادة المحاولة</string>
-    <string name="name">الاسم</string>
-    <string name="total">الإجمالي</string>
-    <string name="balance">الرصيد</string>
+    <string name="finished_trips">رحلاتي السابقه</string>
+    <string name="supporter">الدعم</string>
+    <string name="rating">التقييم</string>
+    <string name="log_out">تسجيل الخروج</string>
 
 </resources>
