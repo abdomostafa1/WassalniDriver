@@ -3,23 +3,19 @@ package com.example.wassalniDR.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wassalniDR.data.Trip
+import com.example.wassalniDR.databinding.SupportCardBinding
 import com.example.wassalniDR.databinding.TripCardBinding
-import com.example.wassalniDR.fragments.TripsFragmentDirections
-//import com.example.wassalniDR.fragments.TripsFragmentDirections
 import com.example.wassalniDR.util.DateUseCase
-import okhttp3.internal.immutableListOf
 
-private const val TAG = "SupportAdapter"
-class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
-{
+private const val TAG = "TripsAdapter"
+class SupportAdapter:RecyclerView.Adapter<SupportAdapter.ViewHolder>() {
 
     private var trips= emptyList<Trip>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupportAdapter.ViewHolder {
         return ViewHolder(
-            TripCardBinding.inflate(
+            SupportCardBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -27,22 +23,17 @@ class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
         )
     }
 
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SupportAdapter.ViewHolder, position: Int) {
         val trip=trips[position]
         holder.binding.startDestnation.text=trip.start
         holder.binding.endDestnation.text=trip.destination
         holder.binding.price.text=trip.price.toString()
-        holder.binding.startTime.text=DateUseCase.fromMillisToHhMma(trip.startTime)
-        holder.binding.endTime.text=DateUseCase.fromMillisToHhMma(trip.endTime)
+        holder.binding.startTime.text= DateUseCase.fromMillisToHhMma(trip.startTime)
+        holder.binding.endTime.text= DateUseCase.fromMillisToHhMma(trip.endTime)
         val id=trip.id
-        holder.itemView.setOnClickListener {
-            val action=TripsFragmentDirections.actionTripsFragmentToTripGraph(id)
-            it.findNavController().navigate(action)
+        holder.binding.btnSupport.setOnClickListener {
 
         }
-
-
     }
 
     override fun getItemCount(): Int =trips.size
@@ -52,7 +43,8 @@ class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
         Log.e(TAG, "trips Data: $trips" )
         notifyDataSetChanged()
     }
-    inner class ViewHolder(binding: TripCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: SupportCardBinding):RecyclerView.ViewHolder(binding.root){
         val binding=binding
+
     }
 }

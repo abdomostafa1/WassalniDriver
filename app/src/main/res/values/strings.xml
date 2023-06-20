@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">WassalniDR</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <string name="RightAddress" translatable="false">The Right Address \n For making a career \n Anyday</string>
     <string name="quality" translatable="false">Let\'s join our team to be one of our partners in success !</string>
-    <string name="error_occurred" >An error occurred</string>
+    <string name="error_occurred">An error occurred</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="email_invalid">Email is invalid</string>
     <string name="no_trips">there is no trips</string>
@@ -44,6 +46,10 @@
     <string name="finish_trip">Finish trip</string>
     <string name="confirm_arrival_before_ten_minutes">confirm arrival is allowed before 10 minutes of station arrival</string>
     <string name="retry">retry</string>
+    <string name="finished_trips">Finished Trips</string>
+    <string name="supporter">Supporter</string>
+    <string name="rating">Rating</string>
+    <string name="log_out">Log Out</string>
 
 
 </resources>
