@@ -18,7 +18,6 @@ import com.example.wassalniDR.databinding.FragmentDriverBalanceBinding
 import com.example.wassalniDR.viewModels.BalanceViewModel
 import kotlinx.coroutines.launch
 
-
 class DriverBalanceFragment : Fragment() {
 
     lateinit var binding:FragmentDriverBalanceBinding
