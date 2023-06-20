@@ -47,5 +47,7 @@
     <string name="supporter">الدعم</string>
     <string name="rating">التقييم</string>
     <string name="log_out">تسجيل الخروج</string>
+    <string name="hello">اهلا</string>
+    <string name="wlc">ع الرحب</string>
 
 </resources>

@@ -50,6 +50,9 @@
     <string name="supporter">Supporter</string>
     <string name="rating">Rating</string>
     <string name="log_out">Log Out</string>
+    <string name="hello">Hello</string>
+    <string name="wlc">wlc</string>
+
 
 
 </resources>
