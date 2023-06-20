@@ -7,51 +7,6 @@
     >
 
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
-
-<!--        <com.google.android.material.appbar.MaterialToolbar-->
-<!--            android:id="@+id/topAppBar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            app:title="Wassallni"-->
-<!--            app:titleCentered="true"-->
-<!--            app:titleTextColor="@color/black" />-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/l1"-->
-<!--        android:orientation="vertical"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        >-->
-
-<!--        <Toolbar-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:title="Wassalni"-->
-<!--            android:titleTextColor="@color/white"-->
-<!--            android:background="@color/teal_200"-->
-<!--            android:elevation="3dp"-->
-<!--            android:id="@+id/too_bar"/>-->
-
-<!--        <FrameLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:id="@+id/frame_layout"-->
-<!--            />-->
-<!--    </LinearLayout>-->
-
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:id="@+id/nav"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:headerLayout="@layout/header"-->
-<!--        app:menu="@menu/menu_bar"/>-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,7 +50,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

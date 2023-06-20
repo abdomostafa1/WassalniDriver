@@ -1,8 +1,8 @@
 package com.example.wassalniDR.database
-import com.example.wassalniDR.data.DriverBalanceResponse
 import com.example.wassalniDR.data.TripDetails
 import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.datasource.DriverTripsResponse
+import com.example.wassalniDR.datasource.driverRatingResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -46,7 +46,8 @@ interface TripsRetrofit {
         @Path("tripId") tripId: String,
         @Path("stationIndex") index: Int
     ): Call<Any>
-
-    fun retrieveDriverBalance(@Header("token")token: String):Call<DriverBalanceResponse>
-
+    @GET("review/driverReview")
+    fun getRating(
+        @Header("token") token:String,
+    ):Call<driverRatingResponse>
 }
