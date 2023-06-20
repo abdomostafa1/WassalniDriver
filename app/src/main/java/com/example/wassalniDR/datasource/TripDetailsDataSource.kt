@@ -96,6 +96,10 @@ class TripDetailsDataSource @Inject constructor(
         //val leg=route.getJSONArray("legs").getJSONObject(0)
     }
 
+    fun finishTrip() {
+
+    }
+
 }
 
 interface DirectionApiService {

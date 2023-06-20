@@ -82,4 +82,8 @@ class TripDetailsRepository @Inject constructor(private val tripDetailsDataSourc
         return "enc:${encodedPoints}:"
     }
 
+    fun finishTrip() {
+        tripDetailsDataSource.finishTrip()
+    }
+
 }

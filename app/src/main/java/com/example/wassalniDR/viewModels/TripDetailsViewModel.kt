@@ -2,6 +2,7 @@ package com.example.wassalniDR.viewModels
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.example.wassalniDR.data.Passenger
 import com.example.wassalniDR.data.Station
 import com.example.wassalniDR.data.TripDetails
 import com.example.wassalniDR.data.uiState.ConfirmArrivalUiState
+import com.example.wassalniDR.data.uiState.TripFareUiState
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.repo.TripDetailsRepository
 import com.google.android.gms.maps.model.LatLng
@@ -35,20 +37,25 @@ class TripDetailsViewModel @Inject constructor(
     private val _polyline = MutableStateFlow<List<LatLng>?>(null)
     val polyline = _polyline.asStateFlow()
 
-    private val _confirmArrivalState = MutableLiveData<ConfirmArrivalUiState>(ConfirmArrivalUiState.InitialState)
-    val confirmArrivalState : LiveData<ConfirmArrivalUiState>
-    get() = _confirmArrivalState
+    private val _confirmArrivalState =
+        MutableLiveData<ConfirmArrivalUiState>(ConfirmArrivalUiState.InitialState)
+    val confirmArrivalState: LiveData<ConfirmArrivalUiState>
+        get() = _confirmArrivalState
 
-    private val _tripFinishState =MutableStateFlow(false)
+    private val _tripFinishState = MutableStateFlow(false)
     val tripFinishState = _tripFinishState.asStateFlow()
 
-    private val _lastStationState =MutableStateFlow(false)
+    private val _lastStationState = MutableStateFlow(false)
     val lastStationState = _lastStationState.asStateFlow()
 
     private var nextStationIndex = 0
 
     private val _onNewStation = MutableStateFlow<Station?>(null)
     val onNewStation = _onNewStation.asStateFlow()
+
+    private val _tripFareUiState= MutableStateFlow<TripFareUiState>(TripFareUiState.InitialState)
+    val tripFareUiState= _tripFareUiState.asStateFlow()
+
     fun getTripDetails(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _tripDetailsUiState.emit(TripUiState.Loading)
@@ -63,7 +70,11 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun getTripPrice(): Double {
-        return tripDetails?.price!!
+        val price=tripDetails?.price
+        return if (price!=null)
+            price
+        else
+            0.0
     }
 
     private fun calculateNextStation() {
@@ -83,41 +94,42 @@ class TripDetailsViewModel @Inject constructor(
 
     }
 
-     fun confirmArrival(driverLocation: LatLng) {
-        if (!canConfirmArrival(driverLocation))
-            return
+    fun confirmArrival(driverLocation: LatLng) {
+//        if (!canConfirmArrival(driverLocation))
+//            return
 
-         val stationIndex = nextStationIndex
-         val station=tripDetails?.stations?.get(stationIndex)
-         station?.isArrived=true
-         updateTripLifecycleState()
+        val stationIndex = nextStationIndex
+        val station = tripDetails?.stations?.get(stationIndex)
+        station?.isArrived = true
+        updateTripLifecycleState()
 
         viewModelScope.launch(Dispatchers.IO) {
             _confirmArrivalState.value = ConfirmArrivalUiState.Loading
-            repo.confirmArrival(tripDetails?._id!!,stationIndex)
+            repo.confirmArrival(tripDetails?._id!!, stationIndex)
             _confirmArrivalState.value = ConfirmArrivalUiState.Success
         }
     }
 
-    private fun canConfirmArrival(driverLocation: LatLng):Boolean{
+    private fun canConfirmArrival(driverLocation: LatLng): Boolean {
         return isValidTime() && isValidDistance(driverLocation)
 
     }
 
-    private fun isValidTime():Boolean{
-        val currentTime=System.currentTimeMillis()
-        val stationArrivalTime= tripDetails?.stations?.get(nextStationIndex)?.time
+    private fun isValidTime(): Boolean {
+        val currentTime = System.currentTimeMillis() / 1000
+        val stationArrivalTime = tripDetails?.stations?.get(nextStationIndex)?.time
         if (stationArrivalTime != null) {
             // confirm arrival is allowed before 10 minutes of station arrival
             if ((stationArrivalTime - currentTime) <= (10 * 60))
                 return true
             else
-                _confirmArrivalState.value=ConfirmArrivalUiState.Error(context.getString(R.string.confirm_arrival_before_ten_minutes))
+                _confirmArrivalState.value =
+                    ConfirmArrivalUiState.Error(context.getString(R.string.confirm_arrival_before_ten_minutes))
         }
         return false
     }
 
-    private fun isValidDistance(driverLocation: LatLng):Boolean {
+    private fun isValidDistance(driverLocation: LatLng): Boolean {
         val location = tripDetails?.stations?.get(nextStationIndex)?.location
         val nextStationLocation = LatLng(location?.lat!!, location.lng)
         // distance in metres
@@ -152,26 +164,26 @@ class TripDetailsViewModel @Inject constructor(
 
     fun recordPassengerAttendance(passengerId: String) {
         val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
-        passenger.hasCome=1
+        passenger.hasCome = 1
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerAttendance( tripDetails?._id!!,passenger.ticket)
+            repo.recordPassengerAttendance(tripDetails?._id!!, passenger.ticket)
         }
     }
 
     fun recordPassengerAbsence(passengerId: String) {
         val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
-        passenger.hasCome=-1
+        passenger.hasCome = -1
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerAbsence(tripDetails?._id!!,passenger.ticket)
+            repo.recordPassengerAbsence(tripDetails?._id!!, passenger.ticket)
         }
     }
 
     fun recordPassengerArrival(passengerId: String) {
         val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
-        passenger.hasArrived=true
+        passenger.hasArrived = true
         updateTripLifecycleState()
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerArrival(tripDetails?._id!!,passenger.ticket)
+            repo.recordPassengerArrival(tripDetails?._id!!, passenger.ticket)
         }
     }
 
@@ -199,22 +211,22 @@ class TripDetailsViewModel @Inject constructor(
         return result
     }
 
-    private fun hasArrivedLastStation():Boolean{
+    private fun hasArrivedLastStation(): Boolean {
         var result = true
-        for (station in tripDetails?.stations!!){
-            if (!station.isArrived){
-                result=false
+        for (station in tripDetails?.stations!!) {
+            if (!station.isArrived) {
+                result = false
                 break
             }
         }
         return result
     }
 
-     fun updateTripLifecycleState(){
+    fun updateTripLifecycleState() {
         if (!isTherePassengers() && hasArrivedLastStation())
-            _tripFinishState.value=true
+            _tripFinishState.value = true
         else if (hasArrivedLastStation())
-            _lastStationState.value=true
+            _lastStationState.value = true
         else
             calculateNextStation()
     }
@@ -224,8 +236,45 @@ class TripDetailsViewModel @Inject constructor(
             try {
                 _polyline.value = repo.getPolyLine(tripDetails?.stations!!)
             } catch (ex: Exception) {
-                Log.e("TAG", "getPolyLine1: ${ex.message}", )
+                Log.e("TAG", "getPolyLine1: ${ex.message}")
             }
         }
     }
+
+    fun getAttendPassengers() :List<Passenger>{
+        val passengers = tripDetails?.passengers?.filter {
+            it.hasCome == 1
+        }
+        return if (passengers!=null)
+            passengers
+        else
+            emptyList()
+
+    }
+
+    fun calculateTotal():Double {
+        var total=0.0
+        val tripPrice=getTripPrice()
+        val passengers=getAttendPassengers()
+        for (passenger in passengers){
+            val fare=passenger.numOfSeat * tripPrice
+            total+=fare
+        }
+        return total
+    }
+    fun finishTrip() {
+        viewModelScope.launch (Dispatchers.IO){
+            try {
+                _tripFareUiState.value=TripFareUiState.Loading
+                repo.finishTrip()
+                _tripFareUiState.value=TripFareUiState.Success
+            }
+            catch (e:Exception){
+                e.printStackTrace()
+                Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
+                _tripFareUiState.value=TripFareUiState.Error
+            }
+        }
+    }
+
 }

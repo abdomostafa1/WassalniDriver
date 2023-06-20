@@ -9,12 +9,12 @@
     >
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/finish_button"
+        android:id="@+id/ok_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_48sdp"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/_16sdp"
-        android:text="@string/finish_trip"
+        android:text="@string/ok"
         app:cornerRadius="@dimen/_8sdp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_rideLifecycleFragment_to_passengerExitFragment"
             app:destination="@id/passengerExitFragment" />
+        <action
+            android:id="@+id/action_rideLifecycleFragment_to_tripFareFragment"
+            app:destination="@id/tripFareFragment" />
     </fragment>
     <fragment
         android:id="@+id/passengerEntryFragment"
@@ -46,4 +49,16 @@
         app:popUpTo="@id/driver_graph"
         app:popUpToInclusive="true"
         />
+    <fragment
+        android:id="@+id/tripFareFragment"
+        android:name="com.example.wassalniDR.fragments.tripGraph.TripFareFragment"
+        android:label="TripFareFragment" >
+
+    <action android:id="@+id/action_to_main_graph"
+        app:destination="@id/tripsFragment"
+        app:popUpTo="@id/driver_graph"
+        app:popUpToInclusive="true"
+        />
+
+    </fragment>
 </navigation>

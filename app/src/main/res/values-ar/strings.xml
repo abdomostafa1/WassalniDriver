@@ -41,5 +41,8 @@
     <string name="confirm_arrival_before_ten_minutes">تأكيد الوصول قبل ميعاد وصول المحطة ب 10 دقائق فقط</string>
     <string name="no_trips">لا يوجد رحلات</string>
     <string name="retry">إعادة المحاولة</string>
+    <string name="name">الاسم</string>
+    <string name="total">الإجمالي</string>
+    <string name="balance">الرصيد</string>
 
 </resources>

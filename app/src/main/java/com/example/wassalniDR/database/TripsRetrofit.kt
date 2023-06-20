@@ -1,4 +1,5 @@
 package com.example.wassalniDR.database
+import com.example.wassalniDR.data.DriverBalanceResponse
 import com.example.wassalniDR.data.TripDetails
 import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.datasource.DriverTripsResponse
@@ -45,4 +46,7 @@ interface TripsRetrofit {
         @Path("tripId") tripId: String,
         @Path("stationIndex") index: Int
     ): Call<Any>
+
+    fun retrieveDriverBalance(@Header("token")token: String):Call<DriverBalanceResponse>
+
 }

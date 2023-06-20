@@ -138,6 +138,9 @@ class RideLifecycleFragment : Fragment() {
         binding.exitingPassengersBtn.setOnClickListener {
             findNavController().navigate(R.id.action_rideLifecycleFragment_to_passengerExitFragment)
         }
+        binding.tripFinishView.okButton.setOnClickListener {
+            findNavController().navigate(R.id.action_rideLifecycleFragment_to_tripFareFragment)
+        }
     }
 
     private fun confirmArrival() {
