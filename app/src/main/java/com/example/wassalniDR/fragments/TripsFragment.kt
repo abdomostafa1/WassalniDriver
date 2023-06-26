@@ -1,28 +1,21 @@
 package com.example.wassalniDR.fragments
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.example.wassalniDR.R
 import com.example.wassalniDR.adapters.TripsAdapter
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.database.TripsRetrofit
@@ -31,13 +24,12 @@ import com.example.wassalniDR.datasource.TripsDataSource
 import com.example.wassalniDR.repo.TripRepositry
 import com.example.wassalniDR.util.Constant
 import com.example.wassalniDR.viewModels.TripsViewModel
-import com.google.android.material.navigation.NavigationView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 
 private const val TAG = "TripsFragment"
 class TripsFragment : Fragment() {
@@ -87,35 +79,11 @@ class TripsFragment : Fragment() {
         binding.errorState.retry.setOnClickListener {
             tripsViewModel.getTrips(token)
         }
-//        handleNavigationView()
+
 
 
     }
 
-//    private fun handleNavigationView() {
-//        navigationView.setNavigationItemSelectedListener {
-//            when(it.itemId)
-//            {
-//                R.id.finished_trips -> {
-//                    drawerLayout.closeDrawer(GravityCompat.START)
-//                    Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show()
-//                    fragmentR(FinshedTripsFragment())
-//                }
-//                R.id.supporter -> {
-//                    drawerLayout.closeDrawer(GravityCompat.START)
-//                    Toast.makeText(context, "Explore", Toast.LENGTH_SHORT).show()
-//                    fragmentR(SupporterFragment())
-//                }
-//                R.id.rating -> {
-//                    drawerLayout.closeDrawer(GravityCompat.START)
-//                    Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show()
-//                    fragmentR(RatingFragment())
-//                }
-//
-//            }
-//            true
-//        }
-//    }
 
 
     private fun handleTripsLiveData() {
@@ -172,12 +140,7 @@ class TripsFragment : Fragment() {
         binding.emptyState.root.visibility = View.VISIBLE
     }
 
-//    private fun fragmentR(fragment:Fragment){
-//        childFragmentManager.beginTransaction()
-//            .replace(R.id.frame_layout, fragment)
-//            .addToBackStack(null)
-//            .commit()
-//    }
+
 
 
 }

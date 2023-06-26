@@ -1,6 +1,7 @@
 package com.example.wassalniDR.data.uiState
 
 import android.media.Rating
+
 import com.example.wassalniDR.data.Trip
 
 sealed class TripUiState{

@@ -1,16 +1,23 @@
 package com.example.wassalniDR.activites
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.example.wassalniDR.R
 import com.example.wassalniDR.databinding.ActivityDriverBinding
 import com.example.wassalniDR.databinding.ActivityLoginRegisterBinding
@@ -45,6 +52,7 @@ class DriverActivity : AppCompatActivity() {
         drawerLayout=binding.drawerLayout
         setContentView(binding.root)
 
+
         handleNavigationView()
     }
 
@@ -54,13 +62,12 @@ class DriverActivity : AppCompatActivity() {
             {
                 R.id.finished_trips -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Comment", Toast.LENGTH_SHORT).show()
 
                     fragmentR(FinshedTripsFragment())
                 }
                 R.id.supporter -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Explore", Toast.LENGTH_SHORT).show()
+
                     fragmentR(SupporterFragment())
                 }
                 R.id.rating -> {
@@ -68,11 +75,17 @@ class DriverActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Comment", Toast.LENGTH_SHORT).show()
                     fragmentR(RatingFragment())
                 }
+                R.id.log_out->{
+
+                }
 
             }
             true
         }
     }
+
+
+
     private fun fragmentR(fragment:Fragment){
         supportFragmentManager.beginTransaction()
             .replace(R.id.driver_nav_host, fragment)

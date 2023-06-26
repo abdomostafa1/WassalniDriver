@@ -4,8 +4,8 @@ import android.media.Rating
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.databinding.RatingCardBinding
 import com.example.wassalniDR.databinding.TripCardBinding
 
@@ -28,7 +28,7 @@ class RatingAdapter:RecyclerView.Adapter<RatingAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: RatingAdapter.ViewHolder, position: Int) {
         val rating=rating[position]
         holder.binding.ratingText.text=rating.message
-//        holder.binding.ratingBar.numStars
+        holder.binding.ratingBar.numStars=rating.ratingAverage
     }
 
     override fun getItemCount():  Int =rating.size
