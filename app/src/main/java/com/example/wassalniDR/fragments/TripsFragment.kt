@@ -74,10 +74,12 @@ class TripsFragment : Fragment() {
         tripsViewModel = TripsViewModel(repo)
         adapter = TripsAdapter()
         binding.rvTrips.adapter = adapter
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 //        drawerLayout=binding.drawerLayout
 
         return binding.root
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -143,7 +145,6 @@ class TripsFragment : Fragment() {
                             showErrorState()
                             Toast.makeText(requireContext(), it.errorMsg, Toast.LENGTH_LONG).show()
                         }
-
                         is TripUiState.Empty -> {
                             showEmptyState()
                         }
@@ -182,12 +183,7 @@ class TripsFragment : Fragment() {
         binding.emptyState.root.visibility = View.VISIBLE
     }
 
-//    private fun fragmentR(fragment:Fragment){
-//        childFragmentManager.beginTransaction()
-//            .replace(R.id.frame_layout, fragment)
-//            .addToBackStack(null)
-//            .commit()
-//    }
+
 
 
     private fun handleNavigationView() {

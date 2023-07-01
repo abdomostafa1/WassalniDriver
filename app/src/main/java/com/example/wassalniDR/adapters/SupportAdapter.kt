@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wassalniDR.data.Trip
+
 import com.example.wassalniDR.databinding.SupportCardBinding
-import com.example.wassalniDR.databinding.TripCardBinding
 import com.example.wassalniDR.util.DateUseCase
+import com.example.wassalniDR.util.OnItemClickListner
 
 private const val TAG = "TripsAdapter"
-class SupportAdapter:RecyclerView.Adapter<SupportAdapter.ViewHolder>() {
+class SupportAdapter(private val listener: OnItemClickListner):RecyclerView.Adapter<SupportAdapter.ViewHolder>() {
 
     private var trips= emptyList<Trip>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupportAdapter.ViewHolder {
@@ -25,6 +26,7 @@ class SupportAdapter:RecyclerView.Adapter<SupportAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: SupportAdapter.ViewHolder, position: Int) {
         val trip=trips[position]
+
         holder.binding.startDestnation.text=trip.start
         holder.binding.endDestnation.text=trip.destination
         holder.binding.price.text=trip.price.toString()
@@ -32,7 +34,7 @@ class SupportAdapter:RecyclerView.Adapter<SupportAdapter.ViewHolder>() {
         holder.binding.endTime.text= DateUseCase.fromMillisToHhMma(trip.endTime)
         val id=trip.id
         holder.binding.btnSupport.setOnClickListener {
-
+            listener.onSendMessageClick(id,position)
         }
     }
 

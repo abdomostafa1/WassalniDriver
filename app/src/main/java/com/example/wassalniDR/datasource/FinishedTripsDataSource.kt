@@ -1,16 +1,15 @@
 package com.example.wassalniDR.datasource
 
 import android.util.Log
-
 import com.example.wassalniDR.data.Trip
+
+
 import com.example.wassalniDR.database.TripsRetrofit
-
-private const val TAG = "SupportDataSource"
-
-class SupportDataSource(private val tripService: TripsRetrofit) {
-
-    fun getTrips(token: String): List<Trip> {
-        val task = tripService.getUpComingTrips(token).execute()
+private const val TAG = "FinishedTripsDataSource"
+class FinishedTripsDataSource(private val tripService: TripsRetrofit)
+{
+    fun getPerviousTrips(token: String): List<Trip> {
+        val task = tripService.getPerviousTrips(token).execute()
         if (task.isSuccessful) {
             Log.e(TAG, "isSuccessful ")
             val trips = task.body()?.trips
@@ -23,4 +22,4 @@ class SupportDataSource(private val tripService: TripsRetrofit) {
 
     }
 }
-data class SupportDriverResponse(val trips: List<Trip>)
+data class DriverFinishedTripsResponse(val trips: List<Trip>)

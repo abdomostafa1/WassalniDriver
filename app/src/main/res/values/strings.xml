@@ -56,4 +56,12 @@
     <string name="balance">Balance</string>
     <string name="name">name</string>
     <string name="trip_completed">The trip has been successfully completed</string>
+    <string name="hello">Hello</string>
+    <string name="wlc">wlc</string>
+    <string name="abdo">abdo</string>
+    <string name="hossam">hossam</string>
+    <string name="make_your_career">make Your Career</string>
+
+
+
 </resources>

@@ -1,20 +1,26 @@
 package com.example.wassalniDR.database
-import com.example.wassalniDR.data.Driver
-import com.example.wassalniDR.data.DriverBalanceResponse
 import com.example.wassalniDR.data.TripDetails
-import com.example.wassalniDR.data.Trip
+
+import com.example.wassalniDR.datasource.DriverFinishedTripsResponse
 import com.example.wassalniDR.datasource.DriverTripsResponse
 import com.example.wassalniDR.datasource.driverRatingResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.Call
-import retrofit2.http.PATCH
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 @JvmSuppressWildcards
 interface TripsRetrofit {
-    @GET("getAllTripsForDriver")
-    fun getAllTrips(@Header("token") token: String): Call<DriverTripsResponse>
+//    @GET("getAllTripsForDriver")
+//    fun getAllTrips(@Header("token") token: String): Call<DriverTripsResponse>
+
+    @GET("getAllUpcomingTripsForDriver")
+    fun getUpComingTrips(@Header("token") token:String): Call<DriverTripsResponse>
+
+    @GET("getAllPerviousTripsForDriver")
+    fun getPerviousTrips(@Header("token") token:String) :Call<DriverFinishedTripsResponse>
 
     @GET("trip/{tripId}")
     fun getTripDetails(
@@ -60,4 +66,8 @@ interface TripsRetrofit {
 
     @PATCH("trip/{tripId}")
     fun endTrip(@Header("token")token:String , @Path("tripId")tripId:String):Call<Any>
+
+    @POST("addApologies")
+    fun makeApology(@Header("token") token:String
+    ,@Body body:Map<String,Any>):Call<Any>
 }

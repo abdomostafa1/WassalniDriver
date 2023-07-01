@@ -1,7 +1,7 @@
 package com.example.wassalniDR.data.uiState
 
 import com.example.wassalniDR.data.Rating
-import com.example.wassalniDR.data.Trip
+
 
 sealed class RatingUiState {
     object Loading:RatingUiState()

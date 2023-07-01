@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wassalniDR.data.Trip
+
+
 import com.example.wassalniDR.databinding.TripCardBinding
 import com.example.wassalniDR.fragments.TripsFragmentDirections
 //import com.example.wassalniDR.fragments.TripsFragmentDirections
