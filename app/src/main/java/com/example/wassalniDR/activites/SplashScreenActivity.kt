@@ -3,12 +3,14 @@ package com.example.wassalniDR.activites
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wassalniDR.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+private const val TAG = "SplashScreenActivity"
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
     @Inject
@@ -22,8 +24,10 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private val loginLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result->
-        if (result.resultCode== RESULT_CANCELED)
+        if (result.resultCode== RESULT_CANCELED) {
+            Log.e(TAG, "RESULT_CANCELED" )
             finish()
+        }
         else
             isLoggedIn()
     }

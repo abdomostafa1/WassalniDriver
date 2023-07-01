@@ -22,14 +22,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+private const val TAG = "TripDetailsViewModel"
 
 @HiltViewModel
 class TripDetailsViewModel @Inject constructor(
     @ApplicationContext val context: Context,
     private val repo: TripDetailsRepository
 ) : ViewModel() {
-    private var tripDetails: TripDetails? = null
+    private lateinit var tripDetails: TripDetails
 
     private val _tripDetailsUiState = MutableStateFlow<TripUiState>(TripUiState.Loading)
     val tripDetailsUiState = _tripDetailsUiState.asStateFlow()
@@ -53,8 +56,8 @@ class TripDetailsViewModel @Inject constructor(
     private val _onNewStation = MutableStateFlow<Station?>(null)
     val onNewStation = _onNewStation.asStateFlow()
 
-    private val _tripFareUiState= MutableStateFlow<TripFareUiState>(TripFareUiState.InitialState)
-    val tripFareUiState= _tripFareUiState.asStateFlow()
+    private val _tripFareUiState = MutableStateFlow<TripFareUiState>(TripFareUiState.InitialState)
+    val tripFareUiState = _tripFareUiState.asStateFlow()
 
     fun getTripDetails(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -66,21 +69,18 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun didTripStart(): Boolean {
-        return tripDetails?.stations?.get(0)?.isArrived == true
+        return tripDetails.stations[0].isArrived
     }
 
     fun getTripPrice(): Double {
-        val price=tripDetails?.price
-        return if (price!=null)
-            price
-        else
-            0.0
+        return tripDetails.price
     }
 
     private fun calculateNextStation() {
-        val stations = tripDetails?.stations!!
-        for (i in 0 until stations.size - 1) {
+        val stations = tripDetails.stations
+        for (i in stations.indices) {
             if (!stations[i].isArrived) {
+                Log.e(TAG, "nextStationIndex =$i ")
                 nextStationIndex = i
                 _onNewStation.value = stations[i]
                 break
@@ -89,7 +89,7 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun getNextStationLocation(): LatLng {
-        val location = tripDetails?.stations?.get(nextStationIndex)?.location!!
+        val location = tripDetails.stations[nextStationIndex].location
         return LatLng(location.lat, location.lng)
 
     }
@@ -98,61 +98,75 @@ class TripDetailsViewModel @Inject constructor(
 //        if (!canConfirmArrival(driverLocation))
 //            return
 
-        val stationIndex = nextStationIndex
-        val station = tripDetails?.stations?.get(stationIndex)
-        station?.isArrived = true
-        updateTripLifecycleState()
-
         viewModelScope.launch(Dispatchers.IO) {
-            _confirmArrivalState.value = ConfirmArrivalUiState.Loading
-            repo.confirmArrival(tripDetails?._id!!, stationIndex)
-            _confirmArrivalState.value = ConfirmArrivalUiState.Success
+            try {
+                _confirmArrivalState.postValue(ConfirmArrivalUiState.Loading)
+                val response = repo.confirmArrival(tripDetails._id, nextStationIndex)
+                tripDetails.passengers = response.passengers
+                val station = tripDetails.stations[nextStationIndex]
+                station.isArrived = true
+                _confirmArrivalState.postValue(ConfirmArrivalUiState.Success)
+                showToastFromBackgroundThread(context.getString(R.string.arrival_confirmed))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _confirmArrivalState.postValue(ConfirmArrivalUiState.Error)
+                if (e.message != null) {
+                    showToastFromBackgroundThread(e.message!!)
+                }
+            }
         }
     }
 
     private fun canConfirmArrival(driverLocation: LatLng): Boolean {
         return isValidTime() && isValidDistance(driverLocation)
-
     }
 
     private fun isValidTime(): Boolean {
         val currentTime = System.currentTimeMillis() / 1000
-        val stationArrivalTime = tripDetails?.stations?.get(nextStationIndex)?.time
-        if (stationArrivalTime != null) {
-            // confirm arrival is allowed before 10 minutes of station arrival
-            if ((stationArrivalTime - currentTime) <= (10 * 60))
-                return true
-            else
-                _confirmArrivalState.value =
-                    ConfirmArrivalUiState.Error(context.getString(R.string.confirm_arrival_before_ten_minutes))
+        val stationArrivalTime = tripDetails.stations[nextStationIndex].time
+        if ((stationArrivalTime - currentTime) <= (10 * 60))
+            return true
+        else {
+            _confirmArrivalState.postValue(ConfirmArrivalUiState.Error)
+            showToastMessage(context.getString(R.string.confirm_arrival_before_ten_minutes))
         }
         return false
     }
 
     private fun isValidDistance(driverLocation: LatLng): Boolean {
-        val location = tripDetails?.stations?.get(nextStationIndex)?.location
-        val nextStationLocation = LatLng(location?.lat!!, location.lng)
+        val location = tripDetails.stations[nextStationIndex].location
+        val nextStationLocation = LatLng(location.lat, location.lng)
         // distance in metres
         val distance = repo.calculateDistance(driverLocation, nextStationLocation)
         if (distance <= 100)
             return true
-        else
-            _confirmArrivalState.value =
-                ConfirmArrivalUiState.Error(context.getString(R.string.not_reached_station))
+        else {
+            _confirmArrivalState.postValue(ConfirmArrivalUiState.Error)
+            showToastMessage(context.getString(R.string.not_reached_station))
+        }
         return false
     }
 
     fun getPassengersOfCurrentStation(): List<Passenger> {
-        val passengers = tripDetails?.passengers!!
-        val currentStation = nextStationIndex - 1
+        val passengers = tripDetails.passengers
+        Log.e(TAG, "passengers =$passengers ")
+        val stationsSize = tripDetails.stations.size.minus(1)
+        val currentStation = if (nextStationIndex == stationsSize)
+            nextStationIndex
+        else
+            nextStationIndex - 1
+
+        Log.e(TAG, "currentStation =$currentStation ")
         val passengersOfCurrentStation = passengers.filter {
-            it.point == currentStation && it.hasCome == 0
+            it.point <= currentStation && it.hasCome == 0
         }
+        Log.e(TAG, "passengersOfCurrentStation=$passengersOfCurrentStation ")
         return passengersOfCurrentStation
+
     }
 
     fun getPassengersOfPastStations(): List<Passenger> {
-        val passengers = tripDetails?.passengers!!
+        val passengers = tripDetails.passengers
         val currentStation = nextStationIndex - 1
         val passengersOfCurrentStation = passengers.filter {
             it.point <= currentStation && it.hasCome == 1 && !it.hasArrived
@@ -163,33 +177,33 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun recordPassengerAttendance(passengerId: String) {
-        val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
+        val passenger = tripDetails.passengers[getPassengerIndex(passengerId)]
         passenger.hasCome = 1
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerAttendance(tripDetails?._id!!, passenger.ticket)
+            repo.recordPassengerAttendance(tripDetails._id, passenger.ticket)
         }
     }
 
     fun recordPassengerAbsence(passengerId: String) {
-        val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
+        val passenger = tripDetails.passengers[getPassengerIndex(passengerId)]
         passenger.hasCome = -1
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerAbsence(tripDetails?._id!!, passenger.ticket)
+            repo.recordPassengerAbsence(tripDetails._id, passenger.ticket)
         }
     }
 
     fun recordPassengerArrival(passengerId: String) {
-        val passenger = tripDetails?.passengers!![getPassengerIndex(passengerId)]
+        val passenger = tripDetails.passengers[getPassengerIndex(passengerId)]
         passenger.hasArrived = true
         updateTripLifecycleState()
         viewModelScope.launch(Dispatchers.IO) {
-            repo.recordPassengerArrival(tripDetails?._id!!, passenger.ticket)
+            repo.recordPassengerArrival(tripDetails._id, passenger.ticket)
         }
     }
 
     private fun getPassengerIndex(passengerId: String): Int {
         var index = 0
-        val passengers = tripDetails?.passengers!!
+        val passengers = tripDetails.passengers
         for (i in passengers.indices) {
             if (passengers[i].id == passengerId) {
                 index = i
@@ -201,19 +215,18 @@ class TripDetailsViewModel @Inject constructor(
 
     private fun isTherePassengers(): Boolean {
         var result = false
-        for (passenger in tripDetails?.passengers!!) {
+        for (passenger in tripDetails.passengers) {
             if (passenger.hasCome >= 0 && !passenger.hasArrived) {
                 result = true
                 break
             }
-
         }
         return result
     }
 
     private fun hasArrivedLastStation(): Boolean {
         var result = true
-        for (station in tripDetails?.stations!!) {
+        for (station in tripDetails.stations) {
             if (!station.isArrived) {
                 result = false
                 break
@@ -223,58 +236,97 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun updateTripLifecycleState() {
-        if (!isTherePassengers() && hasArrivedLastStation())
+        Log.e(TAG, "updateTripLifecycleState: ")
+        if (!isTherePassengers() && hasArrivedLastStation()) {
+            Log.e(TAG, "_tripFinishState")
             _tripFinishState.value = true
-        else if (hasArrivedLastStation())
+        } else if (hasArrivedLastStation()) {
+            Log.e(TAG, "calculateNextStation")
             _lastStationState.value = true
-        else
+        } else {
+            Log.e(TAG, "calculateNextStation")
             calculateNextStation()
+        }
     }
 
     private fun getPolyLine() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _polyline.value = repo.getPolyLine(tripDetails?.stations!!)
+                _polyline.value = repo.getPolyLine(tripDetails.stations)
             } catch (ex: Exception) {
                 Log.e("TAG", "getPolyLine1: ${ex.message}")
             }
         }
     }
 
-    fun getAttendPassengers() :List<Passenger>{
-        val passengers = tripDetails?.passengers?.filter {
+    fun getAttendPassengers(): List<Passenger> {
+        val passengers = tripDetails.passengers.filter {
             it.hasCome == 1
         }
-        return if (passengers!=null)
-            passengers
-        else
-            emptyList()
-
+       return passengers
     }
 
-    fun calculateTotal():Double {
-        var total=0.0
-        val tripPrice=getTripPrice()
-        val passengers=getAttendPassengers()
-        for (passenger in passengers){
-            val fare=passenger.numOfSeat * tripPrice
-            total+=fare
+    fun calculateTotal(): Double {
+        var total = 0.0
+        val tripPrice = getTripPrice()
+        val passengers = getAttendPassengers()
+        for (passenger in passengers) {
+            val fare = passenger.numOfSeat * tripPrice
+            total += fare
         }
         return total
     }
-    fun finishTrip() {
-        viewModelScope.launch (Dispatchers.IO){
+
+    fun endTrip() {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                _tripFareUiState.value=TripFareUiState.Loading
-                repo.finishTrip()
-                _tripFareUiState.value=TripFareUiState.Success
-            }
-            catch (e:Exception){
+                _tripFareUiState.value = TripFareUiState.Loading
+                repo.endTrip(tripDetails._id)
+                _tripFareUiState.value = TripFareUiState.Success
+            } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
-                _tripFareUiState.value=TripFareUiState.Error
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                    _tripFareUiState.value = TripFareUiState.Error
+                }
             }
         }
     }
 
+
+    private suspend fun showToastFromBackgroundThread(message: String) {
+        withContext(Dispatchers.Main) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun determineNextStationIndex() {
+        val stations = tripDetails.stations
+        for (i in stations.indices) {
+            if (stations[i].isArrived)
+                nextStationIndex = i
+        }
+    }
+
+    fun getCurrentStation(): String {
+        if (nextStationIndex != 0) {
+            val station = tripDetails.stations[nextStationIndex - 1]
+            return station.name
+        } else
+            return ""
+    }
+
+    fun setLastStationState(value:Boolean) {
+        _lastStationState.value=value
+    }
+    fun setTripFinishState(value:Boolean) {
+        _tripFinishState.value=value
+    }
+
 }
+
+

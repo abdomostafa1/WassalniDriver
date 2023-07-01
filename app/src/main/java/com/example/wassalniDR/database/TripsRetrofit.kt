@@ -1,4 +1,6 @@
 package com.example.wassalniDR.database
+import com.example.wassalniDR.data.Driver
+import com.example.wassalniDR.data.DriverBalanceResponse
 import com.example.wassalniDR.data.TripDetails
 import com.example.wassalniDR.data.Trip
 import com.example.wassalniDR.datasource.DriverTripsResponse
@@ -7,6 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.Call
+import retrofit2.http.PATCH
 
 @JvmSuppressWildcards
 interface TripsRetrofit {
@@ -45,9 +48,16 @@ interface TripsRetrofit {
         @Header("token") token: String,
         @Path("tripId") tripId: String,
         @Path("stationIndex") index: Int
-    ): Call<Any>
+    ): Call<StationArriveResponse>
     @GET("review/driverReview")
     fun getRating(
         @Header("token") token:String,
     ):Call<driverRatingResponse>
+    @GET("DriverByToken")
+    fun retrieveDriverData(
+        @Header("token") token:String,
+    ):Call<Driver>
+
+    @PATCH("trip/{tripId}")
+    fun endTrip(@Header("token")token:String , @Path("tripId")tripId:String):Call<Any>
 }

@@ -26,8 +26,6 @@ import javax.inject.Inject
 class DriverActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var binding:ActivityDriverBinding
-    lateinit var navigationView: NavigationView
-    lateinit var drawerLayout :DrawerLayout
 
 
 
@@ -41,43 +39,8 @@ class DriverActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDriverBinding.inflate(layoutInflater)
-        navigationView=binding.nav
-        drawerLayout=binding.drawerLayout
         setContentView(binding.root)
 
-        handleNavigationView()
-    }
-
-    private fun handleNavigationView() {
-        navigationView.setNavigationItemSelectedListener {
-            when(it.itemId)
-            {
-                R.id.finished_trips -> {
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Comment", Toast.LENGTH_SHORT).show()
-
-                    fragmentR(FinshedTripsFragment())
-                }
-                R.id.supporter -> {
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Explore", Toast.LENGTH_SHORT).show()
-                    fragmentR(SupporterFragment())
-                }
-                R.id.rating -> {
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Comment", Toast.LENGTH_SHORT).show()
-                    fragmentR(RatingFragment())
-                }
-
-            }
-            true
-        }
-    }
-    private fun fragmentR(fragment:Fragment){
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.driver_nav_host, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 
 }

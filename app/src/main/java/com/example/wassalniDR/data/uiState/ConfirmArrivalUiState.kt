@@ -8,5 +8,5 @@ sealed class ConfirmArrivalUiState {
 
     object Success:ConfirmArrivalUiState()
 
-    data class Error(val errorMsg:String):ConfirmArrivalUiState()
+    object Error :ConfirmArrivalUiState()
 }

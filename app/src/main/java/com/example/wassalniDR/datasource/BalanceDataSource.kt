@@ -1,20 +1,31 @@
 package com.example.wassalniDR.datasource
 
-import android.content.SharedPreferences
-import com.example.wassalniDR.data.DriverBalanceResponse
+import com.example.wassalniDR.data.Driver
+import com.example.wassalniDR.data.LoggedInDriver
 import com.example.wassalniDR.database.TripsRetrofit
+import org.json.JSONObject
 import javax.inject.Inject
 
-class BalanceDataSource @Inject constructor(val remoteService:TripsRetrofit,val sharedPreference: SharedPreferences){
+class BalanceDataSource @Inject constructor(
+    private val remoteService: TripsRetrofit,
+    private val loggedInDriver: LoggedInDriver
+) {
 
-    fun retrieveDriverBalance() :DriverBalanceResponse{
-        val token=sharedPreference.getString("token","")
-        try {
-            val request=remoteService.retrieveDriverBalance(token!!).execute()
+    fun retrieveDriverData(): Driver {
+        val token = loggedInDriver.token
+        val request = remoteService.retrieveDriverData(token).execute()
+        if (request.isSuccessful)
             return request.body()!!
+        else {
+            var errorMsg = ""
+            request.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
         }
-        catch (e:Exception){
-            throw e
-        }
+
+    }
+
+    private fun handleErrorMessage(json: String): String {
+        val root = JSONObject(json)
+        return root.getString("msg")
     }
 }

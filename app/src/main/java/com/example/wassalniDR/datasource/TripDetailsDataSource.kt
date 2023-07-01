@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.wassalniDR.BuildConfig
 import com.example.wassalniDR.data.LoggedInDriver
 import com.example.wassalniDR.data.TripDetails
+import com.example.wassalniDR.database.StationArriveResponse
 import com.example.wassalniDR.database.TripsRetrofit
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
@@ -12,7 +13,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import javax.inject.Inject
-import java.lang.Exception
+import kotlin.Exception
 
 class TripDetailsDataSource @Inject constructor(
     private val tripService: TripsRetrofit,
@@ -28,19 +29,24 @@ class TripDetailsDataSource @Inject constructor(
             val tripDetails = task.body()!!
             Log.e(TAG, "getTripDetails: $tripDetails")
             return tripDetails
+        } else {
+            var errorMsg = ""
+            task.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
         }
-        else
-            throw Exception(task.errorBody()?.string())
 
     }
 
-    suspend fun confirmArrival(tripId: String, stationIndex: Int) {
+    suspend fun confirmArrival(tripId: String, stationIndex: Int): StationArriveResponse {
         val token = loggedInDriver.token
         val task = tripService.confirmStationArrival(token, tripId, stationIndex).execute()
         if (task.isSuccessful)
-            Log.e(TAG, "Successful confirmArrival ")
-        else
-            throw Exception(task.errorBody()?.string())
+            return task.body()!!
+        else {
+            var errorMsg = ""
+            task.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
+        }
     }
 
     fun recordPassengerAttendance(tripId: String, passengerTicket: Int) {
@@ -48,8 +54,11 @@ class TripDetailsDataSource @Inject constructor(
         val task = tripService.recordPassengerAttendance(token, tripId, passengerTicket).execute()
         if (task.isSuccessful)
             Log.e(TAG, "Successful Attendance ")
-        else
-            throw Exception(task.errorBody()?.string())
+        else {
+            var errorMsg = ""
+            task.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
+        }
     }
 
     fun recordPassengerAbsence(tripId: String, passengerTicket: Int) {
@@ -57,8 +66,11 @@ class TripDetailsDataSource @Inject constructor(
         val task = tripService.recordPassengerAbsence(token, tripId, passengerTicket).execute()
         if (task.isSuccessful)
             Log.e(TAG, "Successful Absence ")
-        else
-            throw Exception(task.errorBody()?.string())
+        else {
+            var errorMsg = ""
+            task.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
+        }
     }
 
     fun recordPassengerArrival(tripId: String, passengerTicket: Int) {
@@ -66,8 +78,11 @@ class TripDetailsDataSource @Inject constructor(
         val task = tripService.recordPassengerArrival(token, tripId, passengerTicket).execute()
         if (task.isSuccessful)
             Log.e(TAG, "Successful passenger Arrival ")
-        else
-            throw Exception(task.errorBody()?.string())
+        else {
+            var errorMsg = ""
+            task.errorBody()?.let { errorMsg = handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
+        }
     }
 
     fun getPolyLine(origin: String, destination: String, waypoints: String): List<LatLng> {
@@ -96,8 +111,22 @@ class TripDetailsDataSource @Inject constructor(
         //val leg=route.getJSONArray("legs").getJSONObject(0)
     }
 
-    fun finishTrip() {
+    fun endTrip(tripId: String) {
+        val token = loggedInDriver.token
+        val task = tripService.endTrip(token, tripId).execute()
+        if (task.isSuccessful) {
+            return
+        }
+        else{
+            var errorMsg=""
+            task.errorBody()?.let { errorMsg=handleErrorMessage(it.string()) }
+            throw Exception(errorMsg)
+        }
+    }
 
+    private fun handleErrorMessage(json: String): String {
+        val root = JSONObject(json)
+        return root.getString("msg")
     }
 
 }

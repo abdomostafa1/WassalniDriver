@@ -41,13 +41,17 @@ class PassengerExitFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             it.findNavController().navigateUp()
         }
-        binding.recyclerView.adapter=adapter
-        val pixelsSize=resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._8sdp)
-        binding.recyclerView.addItemDecoration(ItemDecorator(pixelsSize))
-
         val passengersOfPastStations=viewModel.getPassengersOfPastStations()
-        adapter.setData(passengersOfPastStations,viewModel.getTripPrice())
-        adapter.setOnClickListeners(onClickLeaveBtn)
-    }
+        if (passengersOfPastStations.isEmpty())
+            binding.noPassengers.visibility = View.VISIBLE
+        else {
+            binding.recyclerView.adapter = adapter
+            val pixelsSize = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._8sdp)
+            binding.recyclerView.addItemDecoration(ItemDecorator(pixelsSize))
 
+            adapter.setData(passengersOfPastStations, viewModel.getTripPrice())
+            adapter.setOnClickListeners(onClickLeaveBtn)
+        }
+
+    }
 }

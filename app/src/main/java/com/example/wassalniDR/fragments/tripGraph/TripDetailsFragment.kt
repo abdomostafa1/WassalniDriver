@@ -47,9 +47,8 @@ class TripDetailsFragment : Fragment() , OnMapReadyCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTripDetailsBinding.inflate(inflater)
-
         return binding.root
     }
 

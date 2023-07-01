@@ -31,8 +31,8 @@
     <string name="fare">fare</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="passenger_has_paid">Passenger has paid already</string>
     <string name="passenger_not_paid">Passenger did not pay the fare</string>
     <string name="received_the_fee">received fee</string>
@@ -50,6 +50,10 @@
     <string name="supporter">Supporter</string>
     <string name="rating">Rating</string>
     <string name="log_out">Log Out</string>
-
-
+    <string name="no_passengers_in_this_station">There is no passengers in this station</string>
+    <string name="no_passengers">There is no passengers</string>
+    <string name="current_station">Current station</string>
+    <string name="balance">Balance</string>
+    <string name="name">name</string>
+    <string name="trip_completed">The trip has been successfully completed</string>
 </resources>

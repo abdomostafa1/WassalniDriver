@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -28,8 +29,9 @@ import kotlinx.coroutines.launch
 class TripFareFragment : Fragment() {
 
     lateinit var binding:FragmentTripFareListBinding
-    private val viewModel:TripDetailsViewModel by navGraphViewModels(R.navigation.trip_graph)
-
+    private val viewModel: TripDetailsViewModel by navGraphViewModels(R.id.trip_graph) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +44,6 @@ class TripFareFragment : Fragment() {
             val tripPrice=viewModel.getTripPrice()
             val myAdapter=TripFareAdapter(passengers,tripPrice)
             adapter=myAdapter
-
         }
 
         binding.total.text="${viewModel.calculateTotal()}"
@@ -52,7 +53,7 @@ class TripFareFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.finishButton.setOnClickListener {
-            viewModel.finishTrip()
+            viewModel.endTrip()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -65,9 +66,14 @@ class TripFareFragment : Fragment() {
                         is TripFareUiState.Success -> {
                             binding.loader.visibility=View.INVISIBLE
                             findNavController().navigate(R.id.action_to_main_graph)
+                            val tripCompleted=getString(R.string.trip_completed)
+                            Toast.makeText(requireActivity(),tripCompleted,Toast.LENGTH_LONG).show()
                         }
                         is TripFareUiState.Error -> {
                             binding.loader.visibility=View.INVISIBLE
+                            findNavController().navigate(R.id.action_to_main_graph)
+                            val tripCompleted=getString(R.string.trip_completed)
+                            Toast.makeText(requireActivity(),tripCompleted,Toast.LENGTH_LONG).show()
                         }
                         else -> Unit
                     }

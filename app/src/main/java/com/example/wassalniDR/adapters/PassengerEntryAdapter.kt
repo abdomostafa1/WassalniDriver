@@ -62,7 +62,7 @@ class PassengerEntryAdapter @Inject constructor(@ActivityContext val context: Co
                 passengers=passengers.minusElement(passenger)
                 notifyDataSetChanged()
             }
-            .setNegativeButton(context.getString(R.string.yes)) { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

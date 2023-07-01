@@ -53,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onSuccessfulLogin() {
+        setResult(RESULT_OK)
         finish()
     }
 }

@@ -11,7 +11,7 @@ data class TripDetails(
     val driverId: String = "kfhga45y6u7t",
     val driverName: String = "ahmed Nabil",
     val stations: List<Station>,
-    val passengers: List<Passenger>
+    var passengers: List<Passenger>
 )
 
 data class Station(
@@ -181,7 +181,6 @@ var passengers = listOf(
         hasCome = 0,
         hasArrived = false
     )
-
 
 )
 val fullTrip = TripDetails(

@@ -28,10 +28,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "RideLifecycleFragment"
 @AndroidEntryPoint
 class RideLifecycleFragment : Fragment() {
 
@@ -54,7 +56,7 @@ class RideLifecycleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.determineNextStationIndex()
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         viewModel.updateTripLifecycleState()
@@ -62,6 +64,8 @@ class RideLifecycleFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.onNewStation.collect { station ->
                     if (station != null) {
+                        Log.e(TAG, "onNewStation" )
+                        binding.currentStation.text=viewModel.getCurrentStation()
                         binding.navigateTo.text = station.name
                         binding.confirmTv.text = station.name
                         binding.arrivalTime.text = DateUseCase.fromMillisToHhMma(station.time)
@@ -77,27 +81,23 @@ class RideLifecycleFragment : Fragment() {
                 }
                 is ConfirmArrivalUiState.Success -> {
                     binding.loader.visibility = View.INVISIBLE
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.arrival_confirmed),
-                        Toast.LENGTH_LONG
-                    ).show()
-                    hideConfirmArrivalBtnTemporarily()
+                    viewModel.updateTripLifecycleState()
+                        //hideConfirmArrivalBtnTemporarily()
                 }
                 is ConfirmArrivalUiState.Error -> {
                     binding.loader.visibility = View.INVISIBLE
-                    Toast.makeText(requireContext(), state.errorMsg, Toast.LENGTH_LONG).show()
                 }
                 else -> {}
             }
-
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.tripFinishState.collect {
-                    if (it)
+                    if (it) {
                         showTripFinishState()
+                        Log.e(TAG, "tripFinishState" )
+                    }
                 }
             }
         }
@@ -105,8 +105,10 @@ class RideLifecycleFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.lastStationState.collect {
-                    if (it)
+                    if (it) {
                         showLastStationState()
+                        Log.e(TAG, "lastStationState" )
+                    }
                 }
             }
         }
@@ -139,6 +141,7 @@ class RideLifecycleFragment : Fragment() {
             findNavController().navigate(R.id.action_rideLifecycleFragment_to_passengerExitFragment)
         }
         binding.tripFinishView.okButton.setOnClickListener {
+            Log.e(TAG, "tripFinishView=setOnClickListeners: ", )
             findNavController().navigate(R.id.action_rideLifecycleFragment_to_tripFareFragment)
         }
     }
@@ -162,8 +165,11 @@ class RideLifecycleFragment : Fragment() {
         binding.loader.visibility = View.VISIBLE
         fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
-                val driverLocation = LatLng(location.latitude, location.longitude)
-                viewModel.confirmArrival(driverLocation)
+                if (location!=null) {
+                    Log.e("TAG", "lat=${location.latitude},lng=${location.longitude}")
+                    val driverLocation = LatLng(location.latitude, location.longitude)
+                    viewModel.confirmArrival(driverLocation)
+                }
             }
     }
 
@@ -181,18 +187,24 @@ class RideLifecycleFragment : Fragment() {
             startActivity(mapIntent)
         }
         // Attempt to start an activity that can handle the Intent
-
     }
 
     private fun showTripFinishState() {
+        Log.e(TAG, "lastShowTripFinishState: ", )
+        viewModel.setLastStationState(false)
         binding.tripFinishView.root.visibility = View.VISIBLE
         binding.lastStationView.root.visibility = View.GONE
     }
 
     private fun showLastStationState() {
+        Log.e(TAG, "lastShowLastStationState: " )
+        viewModel.setTripFinishState(false)
         binding.lastStationView.root.visibility = View.VISIBLE
         binding.tripFinishView.root.visibility = View.GONE
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateTripLifecycleState()
+    }
 }

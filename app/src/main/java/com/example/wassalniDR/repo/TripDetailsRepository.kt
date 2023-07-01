@@ -3,6 +3,7 @@ package com.example.wassalniDR.repo
 import android.util.Log
 import com.example.wassalniDR.data.Station
 import com.example.wassalniDR.data.TripDetails
+import com.example.wassalniDR.database.StationArriveResponse
 import com.example.wassalniDR.datasource.TripDetailsDataSource
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.PolyUtil
@@ -43,8 +44,8 @@ class TripDetailsRepository @Inject constructor(private val tripDetailsDataSourc
         return rad * c * 1000
     }
 
-    suspend fun confirmArrival(tripId: String,stationIndex: Int) {
-        tripDetailsDataSource.confirmArrival(tripId,stationIndex)
+    suspend fun confirmArrival(tripId: String,stationIndex: Int) :StationArriveResponse{
+        return tripDetailsDataSource.confirmArrival(tripId,stationIndex)
 
     }
 
@@ -82,8 +83,8 @@ class TripDetailsRepository @Inject constructor(private val tripDetailsDataSourc
         return "enc:${encodedPoints}:"
     }
 
-    fun finishTrip() {
-        tripDetailsDataSource.finishTrip()
+    fun endTrip(tripId:String) {
+        tripDetailsDataSource.endTrip(tripId)
     }
 
 }

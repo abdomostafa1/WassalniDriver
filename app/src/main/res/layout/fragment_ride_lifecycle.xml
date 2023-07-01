@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_48sdp"
-        android:text="@string/arrival_time_to_station"
+        android:text="@string/current_station"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
-        android:id="@+id/arrivalTime"
+        android:id="@+id/currentStation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_16sdp"
@@ -127,6 +128,30 @@
     </com.google.android.material.card.MaterialCardView>
 
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:text="@string/arrival_time_to_station"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirmCard"
+        />
+
+    <TextView
+        android:id="@+id/arrivalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        />
+
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="0dp"
@@ -139,11 +164,11 @@
         android:id="@+id/enterPassengersBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/_56sdp"
         android:text="@string/entering_passengers"
         app:layout_constraintBottom_toBottomOf="parent"
         android:backgroundTint="#2ECD70"
         app:layout_constraintTop_toBottomOf="@id/confirmCard"
+        android:minHeight="@dimen/_56sdp"
         android:layout_marginLeft="@dimen/_24sdp"
         android:layout_marginRight="@dimen/_24sdp"
         />
@@ -168,14 +193,14 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/enterPassengersBtn"
         app:layout_constraintTop_toTopOf="parent"
-
         />
 
     <include
         android:id="@+id/tripFinishView"
         layout="@layout/trip_finish_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/enterPassengersBtn"
         app:layout_constraintTop_toTopOf="parent"
         />

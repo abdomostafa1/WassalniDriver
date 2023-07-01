@@ -47,5 +47,10 @@
     <string name="supporter">الدعم</string>
     <string name="rating">التقييم</string>
     <string name="log_out">تسجيل الخروج</string>
-
+    <string name="no_passengers_in_this_station">لا يوجد ركاب في هذه المحطة</string>
+    <string name="no_passengers">لا يوجد ركاب</string>
+    <string name="current_station">المحطة الحالية</string>
+    <string name="balance">الرصيد</string>
+    <string name="name">الاسم</string>
+    <string name="trip_completed">تم اكمال الرحلة بنجاح</string>
 </resources>

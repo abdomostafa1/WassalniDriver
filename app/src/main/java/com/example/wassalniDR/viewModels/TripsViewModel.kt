@@ -3,6 +3,7 @@ package com.example.wassalniDR.viewModels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.wassalniDR.data.Driver
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.repo.TripRepositry
 import kotlinx.coroutines.Dispatchers
@@ -25,5 +26,9 @@ class TripsViewModel(private val tripsRepositry: TripRepositry) : ViewModel() {
                 ex.message?.let { _state.emit(TripUiState.Error(it)) }
             }
         }
+    }
+
+    fun retrieveDriverData() : Driver {
+        return tripsRepositry.retrieveDriverData()
     }
 }

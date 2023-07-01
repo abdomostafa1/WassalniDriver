@@ -3,30 +3,37 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@color/teal_200"
-    android:gravity="bottom"
-    android:padding="15dp"
-    android:layout_height="175dp">
+    android:paddingHorizontal="@dimen/_16sdp"
+    android:layout_height="wrap_content"
+    >
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:id="@+id/driverImg"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
         android:src="@mipmap/ic_launcher"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/_56sdp"
+        />
     <TextView
+        android:id="@+id/driverName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hossam Hassan "
+        android:text=""
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:paddingTop="10dp"
+        android:paddingTop="@dimen/_8sdp"
         />
     <TextView
+        android:id="@+id/driverEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hossam@Yahoo.com "
+        android:text=""
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="normal"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_16sdp"
         />
 
 </LinearLayout>

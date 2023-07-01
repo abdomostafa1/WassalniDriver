@@ -19,6 +19,9 @@
                 android:defaultValue=""
                 />
         </action>
+        <action
+            android:id="@+id/action_tripsFragment_to_balanceFragment"
+            app:destination="@id/balanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -26,5 +29,10 @@
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting"/>
     <include app:graph="@navigation/trip_graph" />
+    <fragment
+        android:id="@+id/balanceFragment"
+        android:name="com.example.wassalniDR.fragments.BalanceFragment"
+        android:label="fragment_balance"
+        tools:layout="@layout/fragment_balance" />
 
 </navigation>

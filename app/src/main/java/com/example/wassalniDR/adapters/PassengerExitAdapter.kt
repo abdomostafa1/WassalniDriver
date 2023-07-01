@@ -19,7 +19,7 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
     RecyclerView.Adapter<PassengerExitAdapter.ViewHolder>() {
 
     private var passengers = emptyList<Passenger>()
-    private var tripPrice=0.0
+    private var tripPrice = 0.0
     private var onClickLeaveBtn: (String) -> Unit = {}
 
 
@@ -38,8 +38,9 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val passenger = passengers[position]
         holder.binding.name.text = passenger.name
-        holder.binding.ticket.text="${context.getString(R.string.ticket)} ${passenger.ticket}"
-        holder.binding.seatsNum.text="${context.getString(R.string.seats_num)} ${passenger.numOfSeat}"
+        holder.binding.ticket.text = "${context.getString(R.string.ticket)} ${passenger.ticket}"
+        holder.binding.seatsNum.text =
+            "${context.getString(R.string.seats_num)} ${passenger.numOfSeat}"
 
         if (passenger.hasPaid)
             holder.binding.hasPaid.text = context.getString(R.string.paid)
@@ -47,11 +48,11 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
             holder.binding.hasPaid.text = context.getString(R.string.not_paid)
 
         holder.binding.passsengerLeave.setOnClickListener {
-            val id=passenger.id
+            val id = passenger.id
             if (passenger.hasPaid)
-                openPaidDialog(passenger,position)
+                openPaidDialog(passenger, position)
             else
-                openUnPaidDialog(passenger,position)
+                openUnPaidDialog(passenger, position)
         }
 
     }
@@ -62,7 +63,7 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
             .setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
                 onClickLeaveBtn.invoke(passenger.id)
                 dialog.dismiss()
-                passengers=passengers.minusElement(passenger)
+                passengers = passengers.minusElement(passenger)
                 notifyDataSetChanged()
             }
             .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
@@ -70,21 +71,24 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
             }
             .show()
     }
-   private fun openUnPaidDialog(passenger: Passenger, position: Int) {
+
+    private fun openUnPaidDialog(passenger: Passenger, position: Int) {
         val builder = AlertDialog.Builder(context)
-       val binding=FeeBinding.inflate((context as Activity).layoutInflater)
-       binding.fare.text="${passenger.numOfSeat*tripPrice}"
+        val binding = FeeBinding.inflate((context as Activity).layoutInflater)
         builder.setView(binding.root)
-            .setPositiveButton(context.getString(R.string.received_the_fee)) { dialog, _ ->
-                onClickLeaveBtn.invoke(passenger.id)
-                dialog.dismiss()
-                passengers=passengers.minusElement(passenger)
-                notifyDataSetChanged()
-            }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        val dialog = builder.create()
+        binding.fare.text = "${passenger.numOfSeat * tripPrice}"
+        binding.okButton.setOnClickListener {
+            onClickLeaveBtn.invoke(passenger.id)
+            dialog.dismiss()
+            passengers = passengers.minusElement(passenger)
+            notifyDataSetChanged()
+        }
+        binding.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 
@@ -92,7 +96,7 @@ class PassengerExitAdapter @Inject constructor(@ActivityContext val context: Con
 
     fun setData(passengers: List<Passenger>, price: Double) {
         this.passengers = passengers
-        tripPrice=price
+        tripPrice = price
         notifyDataSetChanged()
     }
 

@@ -10,9 +10,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -21,14 +23,21 @@ object TripModule {
     @Provides
     @ViewModelScoped
     fun getTripRetrofit(): TripsRetrofit {
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .build()
         val retrofit = Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(
                 MoshiConverterFactory.create(
                     Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
                 )
-            ).build()
+            )
+            .client(okHttpClient)
+            .build()
         return retrofit.create(TripsRetrofit::class.java)
     }
+
 
     @Provides
     @ViewModelScoped

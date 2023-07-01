@@ -39,7 +39,6 @@ class TripFareAdapter(
         holder.binding.seatsNum.append(": ${passenger.numOfSeat}")
         val fare=tripPrice * passenger.numOfSeat
         holder.binding.fare.append(": $fare")
-        holder.binding.name.append(": ${passenger.name}")
 
     }
 

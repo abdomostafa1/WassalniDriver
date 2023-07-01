@@ -45,14 +45,18 @@ class PassengerEntryFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             it.findNavController().navigateUp()
         }
-        binding.recyclerView.adapter=adapter
-        val pixelsSize=resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._8sdp)
-        binding.recyclerView.addItemDecoration(ItemDecorator(pixelsSize))
-
         val passengersOfCurrentStation=viewModel.getPassengersOfCurrentStation()
-        adapter.setData(passengersOfCurrentStation)
-        adapter.setOnClickListeners(onClickAttendBtn,onClickNotAttendBtn)
+        if (passengersOfCurrentStation.isEmpty())
+            binding.noPassengers.visibility=View.VISIBLE
+        else {
+            binding.recyclerView.adapter = adapter
+            val pixelsSize = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._8sdp)
+            binding.recyclerView.addItemDecoration(ItemDecorator(pixelsSize))
 
+            adapter.setData(passengersOfCurrentStation)
+            adapter.setOnClickListeners(onClickAttendBtn, onClickNotAttendBtn)
+
+        }
     }
 
 }

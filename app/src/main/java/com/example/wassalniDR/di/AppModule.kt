@@ -13,9 +13,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -38,9 +41,18 @@ object AppModule {
     @Provides
     @Singleton
     fun providesDriverRetrofit(sharedPreferences: SharedPreferences):DriversRetrofit{
+        val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .build()
         val retrofit = Retrofit.Builder().baseUrl(Constant.BASEURL)
             .addConverterFactory(
-                MoshiConverterFactory.create()).build()
+                MoshiConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
         return retrofit.create(DriversRetrofit::class.java)
     }
+
+
 }
