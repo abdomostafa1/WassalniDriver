@@ -1,4 +1,5 @@
 package com.example.wassalniDR.database
+import com.example.wassalniDR.data.Driver
 import com.example.wassalniDR.data.TripDetails
 
 import com.example.wassalniDR.datasource.DriverFinishedTripsResponse
@@ -9,6 +10,7 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 @JvmSuppressWildcards

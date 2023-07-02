@@ -22,6 +22,15 @@
         <action
             android:id="@+id/action_tripsFragment_to_balanceFragment"
             app:destination="@id/balanceFragment" />
+        <action
+            android:id="@+id/action_tripsFragment_to_supporterFragment"
+            app:destination="@id/supporterFragment" />
+        <action
+            android:id="@+id/action_tripsFragment_to_ratingFragment"
+            app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_tripsFragment_to_finshedTripsFragment"
+            app:destination="@id/finshedTripsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -34,5 +43,17 @@
         android:name="com.example.wassalniDR.fragments.BalanceFragment"
         android:label="fragment_balance"
         tools:layout="@layout/fragment_balance" />
+    <fragment
+        android:id="@+id/supporterFragment"
+        android:name="com.example.wassalniDR.fragments.SupporterFragment"
+        android:label="SupporterFragment" />
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="com.example.wassalniDR.fragments.RatingFragment"
+        android:label="RatingFragment" />
+    <fragment
+        android:id="@+id/finshedTripsFragment"
+        android:name="com.example.wassalniDR.fragments.FinshedTripsFragment"
+        android:label="FinshedTripsFragment" />
 
 </navigation>

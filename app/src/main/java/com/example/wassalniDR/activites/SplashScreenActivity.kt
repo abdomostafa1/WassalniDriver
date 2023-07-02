@@ -36,6 +36,8 @@ class SplashScreenActivity : AppCompatActivity() {
             result->
         if (result.resultCode== RESULT_CANCELED)
             finish()
+        else
+            isLoggedIn()
     }
     private fun isLoggedIn() {
         val isLoggedIn=sharedPreferences.getBoolean("isLoggedIn",false)

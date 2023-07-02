@@ -120,9 +120,9 @@ class RatingFragment : Fragment() {
     private fun showEmptyState() {
         binding.loadingState.root.visibility = View.GONE
         binding.errorState.root.visibility = View.GONE
+        binding.emptyState.textView5.text=getString(R.string.no_ratings)
         binding.rvTrips.visibility = View.GONE
         binding.emptyState.root.visibility = View.VISIBLE
     }
-
 
 }

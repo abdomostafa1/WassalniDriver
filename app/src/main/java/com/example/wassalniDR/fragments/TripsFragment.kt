@@ -1,5 +1,6 @@
 package com.example.wassalniDR.fragments
 
+import android.app.Instrumentation.ActivityResult
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
@@ -13,6 +14,7 @@ import android.widget.Toast
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -69,7 +71,7 @@ class TripsFragment : Fragment() {
             ).build()
         val tripRetrofit = retrofit.create(TripsRetrofit::class.java)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        tripsDataSource = TripsDataSource(tripRetrofit,sharedPreferences)
+        tripsDataSource = TripsDataSource(tripRetrofit, sharedPreferences)
         repo = TripRepositry(tripsDataSource)
         tripsViewModel = TripsViewModel(repo)
         adapter = TripsAdapter()
@@ -79,7 +81,6 @@ class TripsFragment : Fragment() {
 
         return binding.root
     }
-
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -119,8 +120,7 @@ class TripsFragment : Fragment() {
                     headerBinding.driverName.text = driver.name
 
                 }
-            }
-            catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -145,6 +145,7 @@ class TripsFragment : Fragment() {
                             showErrorState()
                             Toast.makeText(requireContext(), it.errorMsg, Toast.LENGTH_LONG).show()
                         }
+
                         is TripUiState.Empty -> {
                             showEmptyState()
                         }
@@ -184,31 +185,39 @@ class TripsFragment : Fragment() {
     }
 
 
-
-
     private fun handleNavigationView() {
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.finished_trips -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(requireActivity(), "Comment", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_tripsFragment_to_finshedTripsFragment)
 
                 }
 
                 R.id.supporter -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(requireActivity(), "Explore", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_tripsFragment_to_supporterFragment)
                 }
 
                 R.id.rating -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(requireActivity(), "Comment", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_tripsFragment_to_ratingFragment)
 
                 }
 
                 R.id.balance -> {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     findNavController().navigate(R.id.action_tripsFragment_to_balanceFragment)
+                }
+
+                R.id.log_out -> {
+                    sharedPreferences
+                        .edit()
+                        .putBoolean("isLoggedIn", false)
+                        .putString("token", "")
+                        .apply()
+                    requireActivity().setResult(AppCompatActivity.RESULT_OK)
+                    requireActivity().finish()
                 }
 
             }

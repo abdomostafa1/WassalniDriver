@@ -22,7 +22,10 @@ class RatingViewModel(private val ratingRepository: RatingRepository):ViewModel(
                _state.emit(RatingUiState.Loading)
                val rating = ratingRepository.getRating(token)
                Log.e("TAG", "viewModel Success")
-               _state.value = RatingUiState.Success(rating)
+               if (rating.isEmpty())
+                   _state.value = RatingUiState.Success(rating)
+               else
+               _state.value = RatingUiState.Empty
            } catch (ex: Exception) {
                ex.message?.let { _state.emit(RatingUiState.Error(it)) }
            }

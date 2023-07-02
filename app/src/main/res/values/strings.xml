@@ -8,6 +8,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="email_invalid">Email is invalid</string>
     <string name="no_trips">there is no trips</string>
+    <string name="no_ratings">there is no ratings</string>
     <string name="passsword_invalid">Password is invalid</string>
     <string name="incorrect_email_or_password">incorrect email or password</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
