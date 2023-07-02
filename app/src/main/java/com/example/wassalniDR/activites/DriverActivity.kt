@@ -72,7 +72,7 @@ class DriverActivity : AppCompatActivity() {
                 }
                 R.id.rating -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
-                    Toast.makeText(applicationContext, "Comment", Toast.LENGTH_SHORT).show()
+
                     fragmentR(RatingFragment())
                 }
                 R.id.log_out->{

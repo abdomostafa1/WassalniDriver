@@ -1,5 +1,6 @@
 package com.example.wassalniDR.fragments
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -31,6 +32,7 @@ import com.example.wassalniDR.viewModels.SupportViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -126,6 +128,10 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
                     Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
                 )
             ).build()
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.supporter_dialog, null)
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(dialogView)
+        val dialog = dialogBuilder.create()
         val tripRetrofit = retrofit.create(TripsRetrofit::class.java)
         val request = mapOf("tripId" to id, "message" to message)
         val token = sharedPreferences.getString("token", "")
@@ -138,15 +144,40 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
                         "Message sent successfully",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else if (response.code()==401) {
-                    // un authrized
-//                    start login screen here
 
-                }else if(response.code() in 400..499){
-                    // you passed invalid data to api
-                }else if(response.code()>=500){
-                    // exception in backend
                 }
+//                } else if (response.code()==401) {
+//                    // un authrized
+////                    start login screen here
+//
+//                }else if(response.code() in 400..499){
+//                    // you passed invalid data to api
+//
+//                }
+//                else if(response.code()>=500){
+//                    // exception in backend
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "status Code 500",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+                else{
+                    var errMsg=""
+                    val json=response.errorBody()!!.string()
+                    val jsonObject=JSONObject(json)
+                    errMsg=jsonObject.getString("msg")
+                    Toast.makeText(
+                        requireContext(),
+                        errMsg,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+                val inputField = dialogView.findViewById<EditText>(R.id.dialog_message)
+                inputField.text.clear()
+                dialog.dismiss()
+
             }
 
             override fun onFailure(call: Call<Any>, t: Throwable) {
@@ -154,28 +185,7 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
             }
 
         })
-   /*     Thread {
-            // Do network action in this function
-            val resposne = token?.let { tripRetrofit.makeApology(it, request).execute() }
-            if (resposne!!.isSuccessful) {
-                val sendMessageResponse = resposne.body()
-//               Toast.makeText(requireContext(), "Message sent successfully", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(
-                        requireContext(),
-                        "Message sent successfully",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
 
-            } else {
-//               Toast.makeText(requireContext(), "Failed to send message", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(requireContext(), "Failed to send message", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }.start()*/
 
 
     }
