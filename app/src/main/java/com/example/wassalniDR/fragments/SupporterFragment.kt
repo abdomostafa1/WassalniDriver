@@ -117,6 +117,10 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
             val msg = msgEt.text.toString()
             onDialogSubmit(id, msg)
 
+            btnSubmit.isEnabled = false // Disable the button to prevent multiple clicks
+            msgEt.setText("") // Clear the EditText
+            dialog.dismiss() // Dismiss the dialo
+
         }
         dialog.show()
     }
@@ -128,10 +132,7 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
                     Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
                 )
             ).build()
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.supporter_dialog, null)
-        val dialogBuilder = AlertDialog.Builder(context)
-            .setView(dialogView)
-        val dialog = dialogBuilder.create()
+
         val tripRetrofit = retrofit.create(TripsRetrofit::class.java)
         val request = mapOf("tripId" to id, "message" to message)
         val token = sharedPreferences.getString("token", "")
@@ -174,9 +175,7 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
                     ).show()
 
                 }
-                val inputField = dialogView.findViewById<EditText>(R.id.dialog_message)
-                inputField.text.clear()
-                dialog.dismiss()
+
 
             }
 
