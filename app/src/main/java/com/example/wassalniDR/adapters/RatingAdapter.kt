@@ -28,7 +28,7 @@ class RatingAdapter:RecyclerView.Adapter<RatingAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: RatingAdapter.ViewHolder, position: Int) {
         val rating=rating[position]
         holder.binding.ratingText.text=rating.message
-        holder.binding.ratingBar.numStars=rating.ratingAverage
+        holder.binding.ratingBar.rating= rating.ratingAverage.toFloat()
     }
 
     override fun getItemCount():  Int =rating.size
