@@ -7,7 +7,7 @@
     <item
         android:id="@+id/finished_trips"
         android:icon="@drawable/ic_car_24"
-        android:title="@string/finished_trips" />
+        android:title="@string/previous_trips" />
     <item
         android:id="@+id/balance"
         android:icon="@drawable/ic_money"

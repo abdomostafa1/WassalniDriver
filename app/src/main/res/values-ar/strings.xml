@@ -44,7 +44,7 @@
     <string name="no_trips">لا يوجد رحلات</string>
     <string name="no_ratings">لا يوجد تقيمات</string>
     <string name="retry">إعادة المحاولة</string>
-    <string name="finished_trips">رحلاتي السابقه</string>
+    <string name="previous_trips">رحلاتي السابقه</string>
     <string name="supporter">الدعم</string>
     <string name="rating">التقييم</string>
     <string name="log_out">تسجيل الخروج</string>

@@ -8,8 +8,8 @@ import com.example.wassalniDR.database.TripsRetrofit
 private const val TAG = "FinishedTripsDataSource"
 class FinishedTripsDataSource(private val tripService: TripsRetrofit)
 {
-    fun getPerviousTrips(token: String): List<Trip> {
-        val task = tripService.getPerviousTrips(token).execute()
+    fun getPreviousTrips(token: String): List<Trip> {
+        val task = tripService.getPreviousTrips(token).execute()
         if (task.isSuccessful) {
             Log.e(TAG, "isSuccessful ")
             val trips = task.body()?.trips

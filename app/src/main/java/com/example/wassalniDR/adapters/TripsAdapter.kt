@@ -37,6 +37,7 @@ class TripsAdapter:RecyclerView.Adapter<TripsAdapter.ViewHolder>()
         holder.binding.price.text=trip.price.toString()
         holder.binding.startTime.text=DateUseCase.fromMillisToHhMma(trip.startTime)
         holder.binding.endTime.text=DateUseCase.fromMillisToHhMma(trip.endTime)
+        holder.binding.day.text=DateUseCase.fromMillisToPatternddMMyyyy(trip.startTime)
         val id=trip.id
         holder.itemView.setOnClickListener {
             val action=TripsFragmentDirections.actionTripsFragmentToTripGraph(id)

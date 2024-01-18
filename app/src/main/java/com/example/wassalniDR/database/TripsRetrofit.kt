@@ -22,7 +22,7 @@ interface TripsRetrofit {
     fun getUpComingTrips(@Header("token") token:String): Call<DriverTripsResponse>
 
     @GET("getAllPerviousTripsForDriver")
-    fun getPerviousTrips(@Header("token") token:String) :Call<DriverFinishedTripsResponse>
+    fun getPreviousTrips(@Header("token") token:String) :Call<DriverFinishedTripsResponse>
 
     @GET("trip/{tripId}")
     fun getTripDetails(

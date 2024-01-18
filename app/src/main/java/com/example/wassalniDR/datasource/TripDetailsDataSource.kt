@@ -89,7 +89,7 @@ class TripDetailsDataSource @Inject constructor(
         val key = BuildConfig.MAPS_API_KEY
         val task = directionApiService.getPolyLine1(origin, destination, waypoints, key).execute()
         if (task.isSuccessful) {
-            Log.e(TAG, "getPolyLine: ${task.body()}")
+            //Log.e(TAG, "getPolyLine: ${task.body()}")
             return handlePolyLineResponse(task.body()!!)
         } else
             throw Exception(task.errorBody()?.string())

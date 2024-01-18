@@ -11,32 +11,28 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.example.wassalniDR.R
 import com.example.wassalniDR.adapters.FinishedTripsAdapter
-import com.example.wassalniDR.adapters.TripsAdapter
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.database.TripsRetrofit
-import com.example.wassalniDR.databinding.FragmentFinshedTripsBinding
-import com.example.wassalniDR.databinding.FragmentTripsBinding
+import com.example.wassalniDR.databinding.FragmentPreviousTripsBinding
 import com.example.wassalniDR.datasource.FinishedTripsDataSource
-import com.example.wassalniDR.datasource.TripsDataSource
 import com.example.wassalniDR.repo.FinishedTripRepository
-import com.example.wassalniDR.repo.TripRepositry
 import com.example.wassalniDR.util.Constant
 import com.example.wassalniDR.viewModels.FinishedTripsViewModel
-import com.example.wassalniDR.viewModels.TripsViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+private const val TAG = "PreviousTripsFragment"
 
-class FinshedTripsFragment : Fragment() {
+class PreviousTripsFragment : Fragment() {
 
     private lateinit var finishedTripsDataSource: FinishedTripsDataSource
-    private lateinit var binding: FragmentFinshedTripsBinding
+    private lateinit var binding: FragmentPreviousTripsBinding
     private lateinit var finishedTripViewModel: FinishedTripsViewModel
     private lateinit var repo: FinishedTripRepository
     private lateinit var adapter: FinishedTripsAdapter
@@ -46,9 +42,11 @@ class FinshedTripsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        binding = FragmentFinshedTripsBinding.inflate(inflater)
+        Log.e(TAG, "onCreateView:FinishedTripsFragment " )
+
+        binding = FragmentPreviousTripsBinding.inflate(inflater)
         val retrofit = Retrofit.Builder().baseUrl(Constant.BASEURL)
             .addConverterFactory(
                 MoshiConverterFactory.create(Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build())).build()
@@ -67,8 +65,11 @@ class FinshedTripsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val token = sharedPreferences.getString("token", "")
         Log.e("TAG", "token equals:$token")
-        finishedTripViewModel.getPerviousTrips(token!!)
         handleLiveDataForFinishedTrips()
+        finishedTripViewModel.getPreviousTrips(token!!)
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun handleLiveDataForFinishedTrips() {

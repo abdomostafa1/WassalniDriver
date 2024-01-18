@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.repo.FinishedTripRepository
-import com.example.wassalniDR.repo.TripRepositry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,13 +14,15 @@ class FinishedTripsViewModel(private val finishedTripRepository: FinishedTripRep
     private val _state = MutableStateFlow<TripUiState>(TripUiState.Loading)
     val state = _state.asStateFlow()
 
-    fun getPerviousTrips(token: String) {
+    fun getPreviousTrips(token: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _state.emit(TripUiState.Loading)
-                val trips = finishedTripRepository.getPerviousTrips(token)
-                Log.e("TAG", "viewModel Success")
+                val trips = finishedTripRepository.getPreviousTrips(token)
+                if (trips.isNotEmpty())
                 _state.value = TripUiState.Success(trips)
+                else
+                    _state.value = TripUiState.Empty
             } catch (ex: Exception) {
                 ex.message?.let { _state.emit(TripUiState.Error(it)) }
             }

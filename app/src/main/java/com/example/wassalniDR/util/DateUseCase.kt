@@ -19,7 +19,7 @@ class DateUseCase {
 
         }
 
-        fun fromMillisToDdMMYyyy(millis: Long): String {
+        fun fromMillisToPatternddMMyyyyhhmm(millis: Long): String {
 
             val date = Date(millis*1000) // create a Date object from the millisecond value
             val sdf = SimpleDateFormat(" dd/MM/yyyy hh:mm a") // create a date format
@@ -27,7 +27,7 @@ class DateUseCase {
             return sdf.format(date)
 
         }
-        fun fromMillisToString3(millis: Long): String {
+        fun fromMillisToPatternddMMyyyy(millis: Long): String {
 
             val date = Date(millis*1000) // create a Date object from the millisecond value
             val sdf = SimpleDateFormat("dd/MM/yyyy") // create a date format

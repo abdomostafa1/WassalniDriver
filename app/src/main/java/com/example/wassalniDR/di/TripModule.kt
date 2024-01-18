@@ -22,11 +22,7 @@ object TripModule {
 
     @Provides
     @ViewModelScoped
-    fun getTripRetrofit(): TripsRetrofit {
-        val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(120, TimeUnit.SECONDS)
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .build()
+    fun getTripRetrofit(okHttpClient: OkHttpClient): TripsRetrofit {
         val retrofit = Retrofit.Builder().baseUrl(BASEURL)
             .addConverterFactory(
                 MoshiConverterFactory.create(

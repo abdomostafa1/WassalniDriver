@@ -30,7 +30,7 @@
             app:destination="@id/ratingFragment" />
         <action
             android:id="@+id/action_tripsFragment_to_finshedTripsFragment"
-            app:destination="@id/finshedTripsFragment" />
+            app:destination="@id/previousTripsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -52,8 +52,8 @@
         android:name="com.example.wassalniDR.fragments.RatingFragment"
         android:label="RatingFragment" />
     <fragment
-        android:id="@+id/finshedTripsFragment"
-        android:name="com.example.wassalniDR.fragments.FinshedTripsFragment"
-        android:label="FinshedTripsFragment" />
+        android:id="@+id/previousTripsFragment"
+        android:name="com.example.wassalniDR.fragments.PreviousTripsFragment"
+        android:label="previousTripsFragment" />
 
 </navigation>

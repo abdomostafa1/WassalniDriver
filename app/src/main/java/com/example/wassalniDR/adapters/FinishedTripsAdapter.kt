@@ -18,7 +18,7 @@ class FinishedTripsAdapter: RecyclerView.Adapter<FinishedTripsAdapter.ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FinishedTripsAdapter.ViewHolder {
 
         return ViewHolder(
-            FinishedTripCardBinding.inflate(
+            TripCardBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -42,9 +42,10 @@ class FinishedTripsAdapter: RecyclerView.Adapter<FinishedTripsAdapter.ViewHolder
         holder.binding.price.text=trip.price.toString()
         holder.binding.startTime.text= DateUseCase.fromMillisToHhMma(trip.startTime)
         holder.binding.endTime.text= DateUseCase.fromMillisToHhMma(trip.endTime)
+        holder.binding.day.text=DateUseCase.fromMillisToPatternddMMyyyy(trip.startTime)
     }
 
-    inner class ViewHolder(binding: FinishedTripCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(binding: TripCardBinding) : RecyclerView.ViewHolder(binding.root) {
         val binding=binding
     }
 }
