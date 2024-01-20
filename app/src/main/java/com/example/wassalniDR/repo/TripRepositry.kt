@@ -11,7 +11,7 @@ class TripRepositry(private val tripsDataSource: TripsDataSource)
         return tripsDataSource.getTrips(token)
     }
 
-    fun retrieveDriverData() : Driver {
+    suspend fun retrieveDriverData() : Driver {
         return tripsDataSource.retrieveDriverData()
     }
 }

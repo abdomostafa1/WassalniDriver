@@ -15,6 +15,13 @@ class TripsViewModel(private val tripsRepositry: TripRepositry) : ViewModel() {
     private val _state = MutableStateFlow<TripUiState>(TripUiState.Loading)
     val state = _state.asStateFlow()
 
+    private val _driverInfo = MutableStateFlow<Driver?>(null)
+    val driverInfo = _driverInfo.asStateFlow()
+
+    init {
+        retrieveDriverData()
+    }
+
     fun getTrips(token: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -28,7 +35,16 @@ class TripsViewModel(private val tripsRepositry: TripRepositry) : ViewModel() {
         }
     }
 
-    fun retrieveDriverData() : Driver {
-        return tripsRepositry.retrieveDriverData()
+    private fun retrieveDriverData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val driver = tripsRepositry.retrieveDriverData()
+                _driverInfo.emit(driver)
+            }
+            catch (error:Throwable){
+                val errorMsg:String=if (error.message !=null) error.message!! else "error"
+                _state.emit(TripUiState.Error(errorMsg))
+            }
+        }
     }
 }

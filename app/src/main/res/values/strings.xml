@@ -62,7 +62,8 @@
     <string name="abdo">abdo</string>
     <string name="hossam">hossam</string>
     <string name="make_your_career">make Your Career</string>
-
+    <string name="apology_sent_successfully">Apology is sent successfully</string>
+    <string name="apologize_for_trip">apologize for trip</string>
 
 
 </resources>

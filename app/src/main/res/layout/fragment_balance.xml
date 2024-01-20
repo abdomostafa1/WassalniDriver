@@ -20,7 +20,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_16sdp"
+        android:layout_marginVertical="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_32sdp"
         android:text="@string/balance"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"

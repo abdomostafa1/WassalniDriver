@@ -29,7 +29,7 @@ class TripsDataSource(private val tripService: TripsRetrofit, private val shared
 
     }
 
-    fun retrieveDriverData(): Driver {
+    suspend fun retrieveDriverData(): Driver {
         val token = sharedPreferences.getString("token","")
         val request = tripService.retrieveDriverData(token!!).execute()
         if (request.isSuccessful)

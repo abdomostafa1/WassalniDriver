@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="#D3D3D3" /> <!-- Light gray color, you can change this to your preferred color -->
+
+    <!-- You can adjust the size of the circle by changing the size values below -->
+    <size
+        android:width="100dp"
+        android:height="100dp" />
+</shape>

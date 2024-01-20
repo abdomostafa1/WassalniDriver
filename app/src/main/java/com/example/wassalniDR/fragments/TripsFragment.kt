@@ -1,32 +1,26 @@
 package com.example.wassalniDR.fragments
 
-import android.app.Instrumentation.ActivityResult
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.wassalniDR.R
 import com.example.wassalniDR.adapters.TripsAdapter
+import com.example.wassalniDR.data.Driver
 import com.example.wassalniDR.data.uiState.TripUiState
 import com.example.wassalniDR.database.TripsRetrofit
 import com.example.wassalniDR.databinding.FragmentTripsBinding
@@ -35,11 +29,9 @@ import com.example.wassalniDR.datasource.TripsDataSource
 import com.example.wassalniDR.repo.TripRepositry
 import com.example.wassalniDR.util.Constant
 import com.example.wassalniDR.viewModels.TripsViewModel
-import com.google.android.material.navigation.NavigationView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -105,25 +97,23 @@ class TripsFragment : Fragment() {
         binding.errorState.retry.setOnClickListener {
             tripsViewModel.getTrips(token)
         }
-        getDriverData()
 
-    }
-
-    private fun getDriverData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val driver = tripsViewModel.retrieveDriverData()
-                withContext(Dispatchers.Main) {
-                    Glide.with(requireActivity()).load(driver.image).circleCrop()
-                        .into(headerBinding.driverImg)
-                    headerBinding.driverEmail.text = driver.email
-                    headerBinding.driverName.text = driver.name
-
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripsViewModel.driverInfo.collect { driver ->
+                    if (driver != null)
+                        showDriverData(driver)
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
+    }
+
+    private fun showDriverData(driver: Driver) {
+        Glide.with(requireActivity()).load(driver.image).circleCrop()
+            .into(headerBinding.driverImg)
+        headerBinding.driverEmail.text = driver.email
+        headerBinding.driverName.text = driver.name
+
     }
 
 

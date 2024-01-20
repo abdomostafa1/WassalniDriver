@@ -142,7 +142,7 @@ class SupporterFragment : Fragment(), OnItemClickListner, OnDialogSubmitListener
                     // response is ssucess do you need here
                     Toast.makeText(
                         requireContext(),
-                        "Message sent successfully",
+                        getString(R.string.apology_sent_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
 

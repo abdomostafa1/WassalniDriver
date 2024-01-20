@@ -11,7 +11,7 @@
         android:id="@+id/driverImg"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
-        android:src="@mipmap/ic_launcher"
+        android:background="@drawable/circle_background"
         android:layout_marginTop="@dimen/_56sdp"
         />
     <TextView

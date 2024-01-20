@@ -101,7 +101,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/g_red"
-            android:text="الاعتذار عن الرحله"
+            android:text="@string/apologize_for_trip"
             android:textSize="20sp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
